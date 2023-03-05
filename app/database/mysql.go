@@ -3,6 +3,10 @@ package database
 import (
 	"fmt"
 	"immersive-dashboard/app/config"
+	_modelClass "immersive-dashboard/features/classes/data"
+	_modelLog "immersive-dashboard/features/logs/data"
+	_modelMentee "immersive-dashboard/features/mentees/data"
+	_modelUser "immersive-dashboard/features/users/data"
 	"log"
 
 	"gorm.io/driver/mysql"
@@ -24,4 +28,8 @@ func InitDBMySql(cfg config.AppConfig) *gorm.DB {
 }
 
 func InitialMigration(db *gorm.DB) {
+	db.AutoMigrate(&_modelUser.User{})
+	db.AutoMigrate(&_modelClass.Class{})
+	db.AutoMigrate(&_modelLog.Log{})
+	db.AutoMigrate(&_modelMentee.Mentee{})
 }

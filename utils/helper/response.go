@@ -52,38 +52,46 @@ func ErrorResponse(err error) (int, interface{}) {
 		code = http.StatusConflict
 	case strings.Contains(msg, "Duplicate"):
 		if strings.Contains(msg, "username") {
-			resp["message"] = "Username is already in use"
+			resp["message"] = "username is already in use"
 			code = http.StatusConflict
 		} else if strings.Contains(msg, "email") {
-			resp["message"] = "Email is already in use"
+			resp["message"] = "email is already in use"
 			code = http.StatusConflict
 		} else {
 			resp["message"] = "Internal server error"
 			code = http.StatusInternalServerError
 		}
+	case strings.Contains(msg, "truncated"):
+		if strings.Contains(msg, "team") {
+			resp["message"] = "team input does not match category"
+			code = http.StatusBadRequest
+		} else if strings.Contains(msg, "status") {
+			resp["message"] = "status input does not match category"
+			code = http.StatusBadRequest
+		}
 	case strings.Contains(msg, "bad request"):
 		code = http.StatusBadRequest
 	case strings.Contains(msg, "hashedPassword"):
-		resp["message"] = "Password do not match"
+		resp["message"] = "password do not match"
 		code = http.StatusForbidden
-	// case strings.Contains(msg, "validation"):
-	// 	resp["message"] = ValidationError(err)
-	// 	code = http.StatusBadRequest
+	case strings.Contains(msg, "validation"):
+		resp["message"] = ValidationError(err)
+		code = http.StatusBadRequest
 	case strings.Contains(msg, "unmarshal"):
 		if strings.Contains(msg, "fullname") {
-			resp["message"] = "Invalid fullname of type string"
+			resp["message"] = "invalid fullname of type string"
 			code = http.StatusBadRequest
 		} else if strings.Contains(msg, "username") {
-			resp["message"] = "Invalid username of type string"
+			resp["message"] = "invalid username of type string"
 			code = http.StatusBadRequest
 		} else if strings.Contains(msg, "gender") {
-			resp["message"] = "Invalid gender of type string"
+			resp["message"] = "invalid gender of type string"
 			code = http.StatusBadRequest
 		} else if strings.Contains(msg, "email") {
-			resp["message"] = "Invalid email of type string"
+			resp["message"] = "invalid email of type string"
 			code = http.StatusBadRequest
 		} else if strings.Contains(msg, "password") {
-			resp["message"] = "Invalid password of type string"
+			resp["message"] = "invalid password of type string"
 			code = http.StatusBadRequest
 		}
 	case strings.Contains(msg, "upload"):

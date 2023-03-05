@@ -8,8 +8,12 @@ import (
 	_menteeHandler "immersive-dashboard/features/mentees/delivery"
 	_menteeService "immersive-dashboard/features/mentees/service"
 
+	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
+	_userData "immersive-dashboard/features/users/data"
+	_userHandler "immersive-dashboard/features/users/delivery"
+	_userService "immersive-dashboard/features/users/service"
 )
 
 func InitRouter(db *gorm.DB, e *echo.Echo) {
@@ -31,4 +35,10 @@ func InitRouter(db *gorm.DB, e *echo.Echo) {
 	e.GET("/classes/list", classHandlerAPI.List)
 	e.PUT("/classes/:id", classHandlerAPI.Edit)
 	e.DELETE("/classes/:id", classHandlerAPI.Delete)
+	v := validator.New()
+	userData := _userData.New(db)
+	userSrv := _userService.New(userData, v)
+	userHdl := _userHandler.New(userSrv)
+
+	e.POST("/register", userHdl.Register())
 }

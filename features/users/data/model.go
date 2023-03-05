@@ -11,8 +11,8 @@ type User struct {
 	Name     string
 	Email    string `gorm:"unique"`
 	Password string
-	Role     string `gorm:"type:enum('Admission', 'Mentor', 'People Skill', 'Placement', 'Academic')"`
-	Team     string `gorm:"type:enum('Active', 'Not-Active', 'Deleted')"`
-	Status   string
-	Classes  []_modelClass.Class `gorm:"foreignKey:Mentor"`
+	Team     string `gorm:"type:enum('Admission', 'Mentor', 'People Skill', 'Placement', 'Academic')"`
+	Status   string `gorm:"type:enum('Active', 'Not-Active', 'Deleted')"`
+	Role     string `gorm:"type:varchar(10) not null default 'Default'"`
+	Classes  []_modelClass.Class
 }

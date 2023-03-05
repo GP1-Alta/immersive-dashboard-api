@@ -30,6 +30,6 @@ func InitDBMySql(cfg config.AppConfig) *gorm.DB {
 func InitialMigration(db *gorm.DB) {
 	db.AutoMigrate(&_modelUser.User{})
 	db.AutoMigrate(&_modelClass.Class{})
-	db.AutoMigrate(&_modelLog.Log{})
 	db.AutoMigrate(&_modelMentee.Mentee{})
+	db.AutoMigrate(&_modelLog.Log{})
 }

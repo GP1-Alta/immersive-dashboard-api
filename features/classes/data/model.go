@@ -10,8 +10,8 @@ import (
 type Class struct {
 	gorm.Model
 	Name      string
-	Mentor    uint
+	UserID    uint
 	StartDate time.Time
 	EndDate   time.Time
-	Mentees   []_modelMentee.Mentee `gorm:"foreignKey:Class"`
+	Mentees   []_modelMentee.Mentee
 }

@@ -15,14 +15,17 @@ type Core struct {
 type UserDelivery interface {
 	Register() echo.HandlerFunc
 	Login() echo.HandlerFunc
+	GetUser() echo.HandlerFunc
 }
 
 type UserService interface {
 	RegisterSrv(newUser Core) error
 	LoginSrv(email, password string) (string, Core, error)
+	GetUser(int, string)([]Core, error)
 }
 
 type UserData interface {
 	RegisterData(newUser Core) error
 	LoginData(email string) (Core, error)
+	GetUser(int, string)([]Core, error)
 }

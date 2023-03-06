@@ -15,6 +15,6 @@ func InitRouter(db *gorm.DB, e *echo.Echo) {
 	menteeService := _menteeService.New(menteeData)
 	menteeHandlerAPI := _menteeHandler.New(menteeService)
 	e.POST("/mentees", menteeHandlerAPI.Create)
-	e.PUT("/mentees", menteeHandlerAPI.Edit)
+	e.PUT("/mentees/:id", menteeHandlerAPI.Edit)
 
 }

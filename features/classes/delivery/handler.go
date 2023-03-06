@@ -53,3 +53,23 @@ func (delivery *ClassHandler) GetAll(c echo.Context) error {
 	dataResponse := listCoreToResponse(data)
 	return c.JSON(http.StatusOK, helper.ResponseWithData("Success", dataResponse))
 }
+
+func (delivery *ClassHandler) Edit(c echo.Context) error {
+	id := c.Param("id")
+	idConv, errConv := strconv.Atoi(id)
+	if errConv != nil {
+		return c.JSON(http.StatusBadRequest, helper.Response("Failed Update Class, id param must number"))
+	}
+	classInput := ClassRequest{}
+	errBind := c.Bind(&classInput)
+	if errBind != nil {
+		return c.JSON(http.StatusBadRequest, helper.Response("Failed Update Class, error bind data"))
+	}
+
+	dataCore := requestToCore(classInput)
+	err := delivery.classService.Edit(dataCore, uint(idConv))
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, helper.Response("Failed Update Class, error update data"))
+	}
+	return c.JSON(http.StatusOK, helper.Response("Success Update Class"))
+}

@@ -41,8 +41,8 @@ func (repo *classQuery) SelectAll(limit int, offset int, name string) ([]classes
 	if tx.Error != nil {
 		return nil, tx.Error
 	}
-	menteeCoreAll := ListModelToCore(classesModel)
-	return menteeCoreAll, nil
+	classCoreAll := ListModelToCore(classesModel)
+	return classCoreAll, nil
 }
 
 // Update implements classes.ClassDataInterface

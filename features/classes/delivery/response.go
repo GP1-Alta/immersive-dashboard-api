@@ -11,12 +11,14 @@ type ClassResponse struct {
 }
 
 func coreToResponse(dataCore classes.Core) ClassResponse {
+	startDate := dataCore.StartDate.Format("2006-01-02")
+	endDate := dataCore.EndDate.Format("2006-01-02")
 	return ClassResponse{
 		ID:           dataCore.ID,
 		Name:         dataCore.Name,
 		Mentor:       dataCore.Mentor,
-		StartDateStr: dataCore.StartDateStr,
-		EndDateStr:   dataCore.EndDateStr,
+		StartDateStr: startDate,
+		EndDateStr:   endDate,
 	}
 }
 

@@ -1,6 +1,7 @@
 package data
 
 import (
+	"errors"
 	"immersive-dashboard/features/classes"
 
 	"gorm.io/gorm"
@@ -17,7 +18,15 @@ func (repo *classQuery) Delete(data classes.Core, id uint) error {
 
 // Insert implements classes.ClassDataInterface
 func (repo *classQuery) Insert(input classes.Core) error {
-	panic("unimplemented")
+	dataModel := CoreToModel(input)
+	tx := repo.db.Create(&dataModel)
+	if tx.Error != nil {
+		return tx.Error
+	}
+	if tx.RowsAffected == 0 {
+		return errors.New("insert error, row affected = 0")
+	}
+	return nil
 }
 
 // ListAll implements classes.ClassDataInterface

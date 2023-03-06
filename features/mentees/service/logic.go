@@ -13,7 +13,15 @@ type menteeService struct {
 
 // Create implements mentees.MenteeServiceInterface
 func (service *menteeService) Create(input mentees.Core) error {
-	panic("unimplemented")
+	errValidate := service.validate.Struct(input)
+	if errValidate != nil {
+		return errValidate
+	}
+	errInsert := service.menteeData.Insert(input)
+	if errInsert != nil {
+		return errInsert
+	}
+	return nil
 }
 
 // Delete implements mentees.MenteeServiceInterface

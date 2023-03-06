@@ -4,22 +4,22 @@ import "time"
 
 type Core struct {
 	ID              uint
-	Name            string
-	Address         string
-	HomeAddress     string
-	Email           string
-	Sex             string
-	Telegram        string
-	Phone           string
-	Discord         string
-	StatusID        uint
-	ClassID         uint
-	EmergencyName   string
-	EmergencyPhone  string
-	EmergencyStatus string
-	Category        string
-	Major           string
-	Institution     string
+	Name            string `validate:"required,max=50"`
+	Address         string `validate:"required,max=50"`
+	HomeAddress     string `validate:"required,max=50"`
+	Email           string `validate:"required,email,max=50"`
+	Sex             string `validate:"required"`
+	Telegram        string `validate:"required,max=50"`
+	Phone           string `validate:"required,max=12"`
+	Discord         string `validate:"required,max=50"`
+	StatusID        uint   `validate:"required"`
+	ClassID         uint   `validate:"required"`
+	EmergencyName   string `validate:"required,max=50"`
+	EmergencyPhone  string `validate:"required,max=12"`
+	EmergencyStatus string `validate:"required,max=50"`
+	Category        string `validate:"required,max=50"`
+	Major           string `validate:"required,max=100"`
+	Institution     string `validate:"required,max=100"`
 	CreatedAt       time.Time
 	UpdatedAt       time.Time
 }

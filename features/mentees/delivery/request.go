@@ -11,8 +11,8 @@ type MenteeRequest struct {
 	Telegram        string `json:"telegram" form:"telegram"`
 	Phone           string `json:"phone" form:"phone"`
 	Discord         string `json:"discord" form:"discord"`
-	Status          string `json:"status" form:"status"`
-	Class           string `json:"class" from:"class"`
+	StatusID        uint   `json:"status" form:"status"`
+	ClassID         uint   `json:"class" from:"class"`
 	EmergencyName   string `json:"emergency_name" form:"emergency_name"`
 	EmergencyPhone  string `json:"emergency_phone" form:"emergency_phone"`
 	EmergencyStatus string `json:"emergency_status" form:"emergency_status"`
@@ -31,11 +31,11 @@ func requestToCore(dataRequest MenteeRequest) mentees.Core {
 		Telegram:        dataRequest.Telegram,
 		Phone:           dataRequest.Phone,
 		Discord:         dataRequest.Discord,
-		StatusID:        0,
-		ClassID:         0,
+		StatusID:        dataRequest.StatusID,
+		ClassID:         dataRequest.ClassID,
 		EmergencyName:   dataRequest.EmergencyName,
-		EmergencyPhone:  dataRequest.Phone,
-		EmergencyStatus: dataRequest.Status,
+		EmergencyPhone:  dataRequest.EmergencyPhone,
+		EmergencyStatus: dataRequest.EmergencyStatus,
 		Category:        dataRequest.Category,
 		Major:           dataRequest.Major,
 		Institution:     dataRequest.Institution,

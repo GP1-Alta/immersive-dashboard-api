@@ -22,6 +22,19 @@ type User struct {
 
 func CoreToUser(data users.Core) User {
 	return User{
+		Model:    gorm.Model{ID: data.Id},
+		Name:     data.Name,
+		Email:    data.Email,
+		Password: data.Password,
+		Team:     data.Team,
+		Status:   data.Status,
+		Role:     data.Role,
+	}
+}
+
+func UserToCore(data User) users.Core {
+	return users.Core{
+		Id:       data.ID,
 		Name:     data.Name,
 		Email:    data.Email,
 		Password: data.Password,

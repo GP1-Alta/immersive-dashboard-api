@@ -38,9 +38,9 @@ func (repo *menteeQuery) Insert(input mentees.Core) error {
 }
 
 // SelectAll implements mentees.MenteeDataInterface
-func (repo *menteeQuery) SelectAll() ([]mentees.Core, error) {
+func (repo *menteeQuery) SelectAll(limit, offset int) ([]mentees.Core, error) {
 	var menteesModel []Mentee
-	tx := repo.db.Find(&menteesModel)
+	tx := repo.db.Limit(limit).Offset(offset).Find(&menteesModel)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}

@@ -68,7 +68,17 @@ func (delivery *MenteeHandler) Delete(c echo.Context) error {
 }
 
 func (delivery *MenteeHandler) GetAll(c echo.Context) error {
-	data, err := delivery.menteeService.GetAll()
+	var pageNumber int = 1
+	pageParam := c.QueryParam("page")
+	if pageParam != "" {
+		pageConv, errConv := strconv.Atoi(pageParam)
+		if errConv != nil {
+			return c.JSON(http.StatusInternalServerError, helper.Response("Failed, page must number"))
+		} else {
+			pageNumber = pageConv
+		}
+	}
+	data, err := delivery.menteeService.GetAll(pageNumber)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.Response("Failed, error read data"))
 	}

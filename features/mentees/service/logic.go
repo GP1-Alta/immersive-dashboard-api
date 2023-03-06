@@ -43,8 +43,10 @@ func (service *menteeService) Edit(input mentees.Core, id uint) error {
 }
 
 // GetAll implements mentees.MenteeServiceInterface
-func (service *menteeService) GetAll() ([]mentees.Core, error) {
-	data, err := service.menteeData.SelectAll()
+func (service *menteeService) GetAll(page int) ([]mentees.Core, error) {
+	limit := 10
+	offset := (page - 1) * limit
+	data, err := service.menteeData.SelectAll(limit, offset)
 	return data, err
 }
 

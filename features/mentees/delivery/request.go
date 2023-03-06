@@ -11,8 +11,8 @@ type MenteeRequest struct {
 	Telegram        string `json:"telegram" form:"telegram"`
 	Phone           string `json:"phone" form:"phone"`
 	Discord         string `json:"discord" form:"discord"`
-	StatusID        uint   `json:"status" form:"status"`
-	ClassID         uint   `json:"class" from:"class"`
+	StatusID        uint   `json:"status_id" form:"status_id"`
+	ClassID         uint   `json:"class_id" from:"class_id"`
 	EmergencyName   string `json:"emergency_name" form:"emergency_name"`
 	EmergencyPhone  string `json:"emergency_phone" form:"emergency_phone"`
 	EmergencyStatus string `json:"emergency_status" form:"emergency_status"`

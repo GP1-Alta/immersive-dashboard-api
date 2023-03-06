@@ -3,15 +3,25 @@ package mentees
 import "time"
 
 type Core struct {
-	ID        uint
-	Email     string `validate:"required,email"`
-	Name      string `validate:"required"`
-	Sex       string `validate:"required"`
-	Status    string `validate:"required"`
-	ClassID   string `validate:"required"`
-	Category  string `validate:"required"`
-	CreatedAt time.Time
-	UpdatedAt time.Time
+	ID              uint
+	Name            string
+	Address         string
+	HomeAddress     string
+	Email           string
+	Sex             string
+	Telegram        string
+	Phone           string
+	Discord         string
+	StatusID        uint
+	ClassID         uint
+	EmergencyName   string
+	EmergencyPhone  string
+	EmergencyStatus string
+	Category        string
+	Major           string
+	Institution     string
+	CreatedAt       time.Time
+	UpdatedAt       time.Time
 }
 
 type MenteeDataInterface interface {

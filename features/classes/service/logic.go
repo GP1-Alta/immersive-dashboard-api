@@ -11,32 +11,40 @@ type classService struct {
 	validate  *validator.Validate
 }
 
-// Delete implements classes.ClassDataInterface
-func (*classService) Delete(data classes.Core, id uint) error {
+// Create implements classes.ClassServiceInterface
+func (service *classService) Create(input classes.Core) error {
+	errValidate := service.validate.Struct(input)
+	if errValidate != nil {
+		return errValidate
+	}
+	errInsert := service.classData.Insert(input)
+	if errInsert != nil {
+		return errInsert
+	}
+	return nil
+}
+
+// Delete implements classes.ClassServiceInterface
+func (service *classService) Delete(data classes.Core, id uint) error {
 	panic("unimplemented")
 }
 
-// Insert implements classes.ClassDataInterface
-func (*classService) Insert(input classes.Core) error {
+// Edit implements classes.ClassServiceInterface
+func (service *classService) Edit(input classes.Core, id uint) error {
 	panic("unimplemented")
 }
 
-// ListAll implements classes.ClassDataInterface
-func (*classService) ListAll() ([]classes.Core, error) {
+// GetAll implements classes.ClassServiceInterface
+func (service *classService) GetAll(page int, name string) ([]classes.Core, error) {
 	panic("unimplemented")
 }
 
-// SelectAll implements classes.ClassDataInterface
-func (*classService) SelectAll(limit int, offset int, name string) ([]classes.Core, error) {
+// List implements classes.ClassServiceInterface
+func (service *classService) List() ([]classes.Core, error) {
 	panic("unimplemented")
 }
 
-// Update implements classes.ClassDataInterface
-func (*classService) Update(input classes.Core, id uint) error {
-	panic("unimplemented")
-}
-
-func New(repo classes.ClassDataInterface) classes.ClassDataInterface {
+func New(repo classes.ClassDataInterface) classes.ClassServiceInterface {
 	return &classService{
 		classData: repo,
 		validate:  validator.New(),

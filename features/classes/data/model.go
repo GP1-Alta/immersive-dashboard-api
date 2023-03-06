@@ -12,11 +12,11 @@ type Class struct {
 	gorm.Model
 	Name         string
 	UserID       uint
-	Mentor       string `gorm:"-:migration"`
+	Mentor       string
 	StartDate    time.Time
-	StartDateStr string `gorm:"-:migration"`
+	StartDateStr string
 	EndDate      time.Time
-	EndDateStr   string `gorm:"-:migration"`
+	EndDateStr   string
 	Mentees      []_modelMentee.Mentee
 }
 

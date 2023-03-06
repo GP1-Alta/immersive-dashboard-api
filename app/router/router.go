@@ -16,5 +16,5 @@ func InitRouter(db *gorm.DB, e *echo.Echo) {
 	menteeHandlerAPI := _menteeHandler.New(menteeService)
 	e.POST("/mentees", menteeHandlerAPI.Create)
 	e.PUT("/mentees/:id", menteeHandlerAPI.Edit)
-
+	e.DELETE("/mentees/:id", menteeHandlerAPI.Delete)
 }

@@ -29,3 +29,23 @@ func listCoreToResponse(dataCore []classes.Core) []ClassResponse {
 	}
 	return dataResponse
 }
+
+type ListClassResponse struct {
+	ID   uint   `json:"id"`
+	Name string `json:"name"`
+}
+
+func coreToResponseList(dataCore classes.Core) ListClassResponse {
+	return ListClassResponse{
+		ID:   dataCore.ID,
+		Name: dataCore.Name,
+	}
+}
+
+func listCoreToResponseList(dataCore []classes.Core) []ListClassResponse {
+	var dataResponse []ListClassResponse
+	for _, v := range dataCore {
+		dataResponse = append(dataResponse, coreToResponseList(v))
+	}
+	return dataResponse
+}

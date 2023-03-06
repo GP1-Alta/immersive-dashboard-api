@@ -14,3 +14,19 @@ type Core struct {
 	CreatedAt    time.Time
 	UpdatedAt    time.Time
 }
+
+type ClassDataInterface interface {
+	SelectAll(limit, offset int, name string) ([]Core, error)
+	ListAll() ([]Core, error)
+	Insert(input Core) error
+	Update(input Core, id uint) error
+	Delete(data Core, id uint) error
+}
+
+type ClassServiceInterface interface {
+	GetAll(page int, name string) ([]Core, error)
+	List() ([]Core, error)
+	Create(input Core) error
+	Edit(input Core, id uint) error
+	Delete(data Core, id uint) error
+}

@@ -1,6 +1,7 @@
 package data
 
 import (
+	"errors"
 	"immersive-dashboard/features/mentees"
 
 	"gorm.io/gorm"
@@ -17,7 +18,15 @@ func (repo *menteeQuery) Delete(data mentees.Core, id uint) error {
 
 // Insert implements mentees.MenteeDataInterface
 func (repo *menteeQuery) Insert(input mentees.Core) error {
-	panic("unimplemented")
+	dataModel := CoreToModel(input)
+	tx := repo.db.Create(&dataModel)
+	if tx.Error != nil {
+		return tx.Error
+	}
+	if tx.RowsAffected == 0 {
+		return errors.New("insert error, row affected = 0")
+	}
+	return nil
 }
 
 // SelectAll implements mentees.MenteeDataInterface

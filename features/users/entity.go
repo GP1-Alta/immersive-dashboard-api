@@ -17,6 +17,7 @@ type UserDelivery interface {
 	Login() echo.HandlerFunc
 	GetUser() echo.HandlerFunc
 	UpdateUser() echo.HandlerFunc
+	Delete() echo.HandlerFunc
 }
 
 type UserService interface {
@@ -24,6 +25,7 @@ type UserService interface {
 	LoginSrv(email, password string) (string, Core, error)
 	GetUser(int, string)([]Core, error)
 	UpdateUserSrv(id int, newUser Core) error
+	DeleteSrv(id int) error
 }
 
 type UserData interface {
@@ -31,4 +33,5 @@ type UserData interface {
 	LoginData(email string) (Core, error)
 	GetUser(int, string)([]Core, error)
 	UpdateUserData(id int, newUser Core) error
+	DeleteData(id int) error
 }

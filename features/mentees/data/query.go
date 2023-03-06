@@ -11,22 +11,22 @@ type menteeQuery struct {
 }
 
 // Delete implements mentees.MenteeDataInterface
-func (*menteeQuery) Delete(data mentees.Core, id uint) error {
+func (repo *menteeQuery) Delete(data mentees.Core, id uint) error {
 	panic("unimplemented")
 }
 
 // Insert implements mentees.MenteeDataInterface
-func (*menteeQuery) Insert(input mentees.Core) error {
+func (repo *menteeQuery) Insert(input mentees.Core) error {
 	panic("unimplemented")
 }
 
 // SelectAll implements mentees.MenteeDataInterface
-func (*menteeQuery) SelectAll() ([]mentees.Core, error) {
+func (repo *menteeQuery) SelectAll() ([]mentees.Core, error) {
 	panic("unimplemented")
 }
 
 // Update implements mentees.MenteeDataInterface
-func (*menteeQuery) Update(input mentees.Core, id uint) error {
+func (repo *menteeQuery) Update(input mentees.Core, id uint) error {
 	panic("unimplemented")
 }
 

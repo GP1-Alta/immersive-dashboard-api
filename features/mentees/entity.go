@@ -13,7 +13,9 @@ type Core struct {
 	Phone           string `validate:"required,max=12"`
 	Discord         string `validate:"required,max=50"`
 	StatusID        uint   `validate:"required"`
-	ClassID         uint   `validate:"required"`
+	Status          string
+	ClassID         uint `validate:"required"`
+	Class           string
 	EmergencyName   string `validate:"required,max=50"`
 	EmergencyPhone  string `validate:"required,max=12"`
 	EmergencyStatus string `validate:"required,max=50"`

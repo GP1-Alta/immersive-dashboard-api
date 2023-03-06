@@ -6,8 +6,8 @@ type MenteeResponse struct {
 	ID       uint   `json:"id"`
 	Name     string `json:"name"`
 	Sex      string `json:"sex"`
-	StatusID uint   `json:"status_id"`
-	ClassID  uint   `json:"class_id"`
+	Status   string `json:"status"`
+	Class    string `json:"class"`
 	Category string `json:"category"`
 }
 
@@ -16,8 +16,8 @@ func coreToResponse(dataCore mentees.Core) MenteeResponse {
 		ID:       dataCore.ID,
 		Name:     dataCore.Name,
 		Sex:      dataCore.Sex,
-		StatusID: dataCore.StatusID,
-		ClassID:  dataCore.ClassID,
+		Status:   dataCore.Status,
+		Class:    dataCore.Class,
 		Category: dataCore.Category,
 	}
 }

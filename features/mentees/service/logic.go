@@ -26,7 +26,11 @@ func (service *menteeService) Create(input mentees.Core) error {
 
 // Delete implements mentees.MenteeServiceInterface
 func (service *menteeService) Delete(data mentees.Core, id uint) error {
-	panic("unimplemented")
+	errDelete := service.menteeData.Delete(data, id)
+	if errDelete != nil {
+		return errDelete
+	}
+	return nil
 }
 
 // Edit implements mentees.MenteeServiceInterface

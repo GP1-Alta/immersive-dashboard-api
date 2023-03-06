@@ -13,7 +13,15 @@ type menteeQuery struct {
 
 // Delete implements mentees.MenteeDataInterface
 func (repo *menteeQuery) Delete(data mentees.Core, id uint) error {
-	panic("unimplemented")
+	dataModel := CoreToModel(data)
+	tx := repo.db.Where("id = ?", id).Delete(&dataModel)
+	if tx.Error != nil {
+		return tx.Error
+	}
+	if tx.RowsAffected == 0 {
+		return errors.New("delete error, row affected = 0")
+	}
+	return nil
 }
 
 // Insert implements mentees.MenteeDataInterface

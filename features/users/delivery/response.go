@@ -8,3 +8,5 @@ type UserResponse struct {
 	Role     string `json:"role" form:"role"`
 	Status   string `json:"status" form:"status"`
 }
+
+type ListUserResponse []UserResponse

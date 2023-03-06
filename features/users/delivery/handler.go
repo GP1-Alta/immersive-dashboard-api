@@ -5,6 +5,7 @@ import (
 	helper "immersive-dashboard/utils/helper"
 	"log"
 	"net/http"
+	"strconv"
 
 	"github.com/jinzhu/copier"
 	"github.com/labstack/echo/v4"
@@ -55,5 +56,21 @@ func (ud *userDelivery) Login() echo.HandlerFunc {
 		copier.Copy(&res, &data)
 
 		return c.JSON(helper.SuccessResponse(http.StatusOK, "Login success", res, token))
+	}
+}
+
+func (ud *userDelivery) GetUser() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		page, _ := strconv.Atoi(c.QueryParam("page"))
+		key := c.QueryParam("key")
+		data, err := ud.srv.GetUser(page, key)
+		if err != nil {
+			log.Println("error handler", err)
+			return c.JSON(helper.ErrorResponse(err))
+		}
+		res := ListUserResponse{}
+		copier.Copy(&res, &data)
+
+		return c.JSON(helper.SuccessResponse(http.StatusOK, "successfully get all user", res))
 	}
 }

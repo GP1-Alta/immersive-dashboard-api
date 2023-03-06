@@ -73,3 +73,12 @@ func (us *userService) LoginSrv(email string, password string) (string, users.Co
 
 	return token, tmp, nil
 }
+
+func (us *userService) GetUser(pageNum int, keyword string) ([]users.Core, error) {
+	tmp, err := us.data.GetUser(pageNum, keyword)
+	if err != nil {
+		log.Println("error data:", err)
+		return nil, err
+	}
+	return tmp, nil
+}

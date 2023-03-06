@@ -1,6 +1,8 @@
 package data
 
 import (
+	// "errors"
+	"errors"
 	"immersive-dashboard/features/users"
 	"log"
 
@@ -34,4 +36,21 @@ func (uq *userQuery) LoginData(email string) (users.Core, error) {
 		return users.Core{}, tx.Error
 	}
 	return UserToCore(tmp), nil
+}
+
+func (uq *userQuery) GetUser(pageNum int, keyword string) ([]users.Core, error) {
+	tmp := []User{}
+	pageSize := 2
+	log.Println("key:", keyword)
+	offset := (pageNum - 1) * pageSize
+	// tx := uq.db.Raw("SELECT * FROM users LIMIT ?, OFFSET ? WHERE name = ?", pageSize, offset, keyword).Find(&tmp)
+	tx := uq.db.Where("name LIKE ?", "%"+keyword+"%").Offset(offset).Limit(pageSize).Find(&tmp)
+	if tx.RowsAffected < 1 {
+		return nil, errors.New("users not found, no data displayed")
+	}
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	listUser := ListUserToCore(tmp)
+	return listUser, nil
 }

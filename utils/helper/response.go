@@ -42,13 +42,16 @@ func ErrorResponse(err error) (int, interface{}) {
 	}
 
 	switch true {
+	case strings.Contains(msg, "Atoi"):
+		resp["message"] = "id must be number, cannot be string"
+		code = http.StatusNotFound
 	case strings.Contains(msg, "server"):
 		code = http.StatusInternalServerError
 	case strings.Contains(msg, "format"):
 		code = http.StatusBadRequest
 	case strings.Contains(msg, "not found"):
-			resp["message"] = "data not found"
-			code = http.StatusNotFound
+		resp["message"] = "data not found"
+		code = http.StatusNotFound
 	case strings.Contains(msg, "conflict"):
 		code = http.StatusConflict
 	case strings.Contains(msg, "Duplicate"):

@@ -7,6 +7,7 @@ import (
 	"immersive-dashboard/middlewares"
 
 	"github.com/labstack/echo/v4"
+	"github.com/labstack/echo/v4/middleware"
 )
 
 func main() {
@@ -15,6 +16,7 @@ func main() {
 	database.InitialMigration(db)
 
 	e := echo.New()
+	e.Use(middleware.CORS())
 	middlewares.LogMiddlewares(e)
 	router.InitRouter(db, e)
 	e.Logger.Fatal(e.Start(":8080"))

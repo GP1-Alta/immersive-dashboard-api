@@ -26,17 +26,29 @@ func (service *menteeService) Create(input mentees.Core) error {
 
 // Delete implements mentees.MenteeServiceInterface
 func (service *menteeService) Delete(data mentees.Core, id uint) error {
-	panic("unimplemented")
+	errDelete := service.menteeData.Delete(data, id)
+	if errDelete != nil {
+		return errDelete
+	}
+	return nil
 }
 
 // Edit implements mentees.MenteeServiceInterface
 func (service *menteeService) Edit(input mentees.Core, id uint) error {
-	panic("unimplemented")
+	errUpdate := service.menteeData.Update(input, id)
+	if errUpdate != nil {
+		return errUpdate
+	}
+	return nil
 }
 
 // GetAll implements mentees.MenteeServiceInterface
-func (service *menteeService) GetAll() ([]mentees.Core, error) {
-	panic("unimplemented")
+func (service *menteeService) GetAll(page int, class, status, category, name string) ([]mentees.Core, error) {
+	limit := 10
+	offset := (page - 1) * limit
+	nameSearch := "%" + name + "%"
+	data, err := service.menteeData.SelectAll(limit, offset, class, status, category, nameSearch)
+	return data, err
 }
 
 func New(repo mentees.MenteeDataInterface) mentees.MenteeServiceInterface {

@@ -18,7 +18,9 @@ type Mentee struct {
 	Phone           string
 	Discord         string
 	StatusID        uint
+	Status          string `gorm:"-:migration"`
 	ClassID         uint
+	Class           string `gorm:"-:migration"`
 	EmergencyName   string
 	EmergencyPhone  string
 	EmergencyStatus string `gorm:"type:enum('Orang Tua', 'Kakek Nenek', 'Saudara dari Orang Tua')"`
@@ -39,7 +41,9 @@ func CoreToModel(dataCore mentees.Core) Mentee {
 		Phone:           dataCore.Phone,
 		Discord:         dataCore.Discord,
 		StatusID:        dataCore.StatusID,
+		Status:          dataCore.Status,
 		ClassID:         dataCore.ClassID,
+		Class:           dataCore.Class,
 		EmergencyName:   dataCore.EmergencyName,
 		EmergencyPhone:  dataCore.EmergencyPhone,
 		EmergencyStatus: dataCore.EmergencyStatus,
@@ -61,7 +65,9 @@ func ModelToCore(dataModel Mentee) mentees.Core {
 		Phone:           dataModel.Phone,
 		Discord:         dataModel.Discord,
 		StatusID:        dataModel.StatusID,
+		Status:          dataModel.Status,
 		ClassID:         dataModel.ClassID,
+		Class:           dataModel.Class,
 		EmergencyName:   dataModel.EmergencyName,
 		EmergencyPhone:  dataModel.EmergencyPhone,
 		EmergencyStatus: dataModel.EmergencyStatus,

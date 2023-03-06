@@ -13,7 +13,9 @@ type Core struct {
 	Phone           string `validate:"required,max=12"`
 	Discord         string `validate:"required,max=50"`
 	StatusID        uint   `validate:"required"`
-	ClassID         uint   `validate:"required"`
+	Status          string
+	ClassID         uint `validate:"required"`
+	Class           string
 	EmergencyName   string `validate:"required,max=50"`
 	EmergencyPhone  string `validate:"required,max=12"`
 	EmergencyStatus string `validate:"required,max=50"`
@@ -25,14 +27,14 @@ type Core struct {
 }
 
 type MenteeDataInterface interface {
-	SelectAll() ([]Core, error)
+	SelectAll(limit, offset int, class, status, category, name string) ([]Core, error)
 	Insert(input Core) error
 	Update(input Core, id uint) error
 	Delete(data Core, id uint) error
 }
 
 type MenteeServiceInterface interface {
-	GetAll() ([]Core, error)
+	GetAll(page int, class, status, category, name string) ([]Core, error)
 	Create(input Core) error
 	Edit(input Core, id uint) error
 	Delete(data Core, id uint) error

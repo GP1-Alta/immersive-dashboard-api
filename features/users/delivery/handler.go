@@ -96,3 +96,18 @@ func (ud *userDelivery) UpdateUser() echo.HandlerFunc {
 		return c.JSON(helper.SuccessResponse(http.StatusOK, "Success Update User"))
 	}
 }
+
+func (ud *userDelivery) Delete() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		id, err := strconv.Atoi(c.Param("id"))
+		if err != nil {
+			return c.JSON(helper.ErrorResponse(err))
+		}
+
+		if err := ud.srv.DeleteSrv(id); err != nil{
+			log.Println("error handler", err)
+			return c.JSON(helper.ErrorResponse(err))
+		}
+		return c.JSON(helper.SuccessResponse(http.StatusOK, "Success Delete User"))
+	}
+}

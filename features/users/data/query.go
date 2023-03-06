@@ -46,7 +46,7 @@ func (uq *userQuery) GetUser(pageNum int, keyword string) ([]users.Core, error) 
 	// tx := uq.db.Raw("SELECT * FROM users LIMIT ?, OFFSET ? WHERE name = ?", pageSize, offset, keyword).Find(&tmp)
 	tx := uq.db.Where("name LIKE ?", "%"+keyword+"%").Offset(offset).Limit(pageSize).Find(&tmp)
 	if tx.RowsAffected < 1 {
-		return nil, errors.New("users not found, no data displayed")
+		return nil, errors.New("not found")
 	}
 	if tx.Error != nil {
 		return nil, tx.Error
@@ -64,3 +64,13 @@ func (uq *userQuery) UpdateUserData(id int, updateUser users.Core) error {
 	return nil
 }
 
+func (uq *userQuery) DeleteData(id int) error {
+	tx := uq.db.Delete(&User{}, id)
+	if tx.RowsAffected < 1 {
+		return errors.New("not found")
+	}
+	if tx.Error != nil {
+		return tx.Error
+	}
+	return nil
+}

@@ -90,9 +90,16 @@ func (us *userService) UpdateUserSrv(id int, updateUser users.Core) error {
 		return errBcrypt
 	}
 	updateUser.Password = passBcrypt
-	
+
 	err := us.data.UpdateUserData(id, updateUser)
 	if err != nil {
+		return err
+	}
+	return nil
+}
+
+func (us *userService) DeleteSrv(id int) error {
+	if err := us.data.DeleteData(id); err != nil {
 		return err
 	}
 	return nil

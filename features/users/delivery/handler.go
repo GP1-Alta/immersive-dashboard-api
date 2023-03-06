@@ -37,3 +37,23 @@ func (ud *userDelivery) Register() echo.HandlerFunc {
 		return c.JSON(helper.SuccessResponse(http.StatusCreated, "Success register account"))
 	}
 }
+
+func (ud *userDelivery) Login() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		loginInput := LoginReq{}
+		if err := c.Bind(&loginInput); err != nil {
+			log.Println("error bind", err)
+			return c.JSON(helper.ErrorResponse(err))
+		}
+
+		token, data, err := ud.srv.LoginSrv(loginInput.Email, loginInput.Password)
+		if err != nil {
+			return c.JSON(helper.ErrorResponse(err))
+		}
+
+		res := UserResponse{}
+		copier.Copy(&res, &data)
+
+		return c.JSON(helper.SuccessResponse(http.StatusOK, "Login success", res, token))
+	}
+}

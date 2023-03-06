@@ -24,6 +24,14 @@ func (uq *userQuery) RegisterData(newUser users.Core) error {
 		log.Println("error query", tx.Error)
 		return tx.Error
 	}
-
 	return nil
+}
+
+func (uq *userQuery) LoginData(email string) (users.Core, error) {
+	tmp := User{}
+	tx := uq.db.Where("email = ?", email).First(&tmp)
+	if tx.Error != nil {
+		return users.Core{}, tx.Error
+	}
+	return UserToCore(tmp), nil
 }

@@ -44,7 +44,8 @@ func (service *menteeService) Edit(input mentees.Core, id uint) error {
 
 // GetAll implements mentees.MenteeServiceInterface
 func (service *menteeService) GetAll() ([]mentees.Core, error) {
-	panic("unimplemented")
+	data, err := service.menteeData.SelectAll()
+	return data, err
 }
 
 func New(repo mentees.MenteeDataInterface) mentees.MenteeServiceInterface {

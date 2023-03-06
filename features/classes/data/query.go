@@ -36,7 +36,13 @@ func (repo *classQuery) ListAll() ([]classes.Core, error) {
 
 // SelectAll implements classes.ClassDataInterface
 func (repo *classQuery) SelectAll(limit int, offset int, name string) ([]classes.Core, error) {
-	panic("unimplemented")
+	var classesModel []Class
+	tx := repo.db.Where("classes.name LIKE ?", name).Select("classes.id, classes.name, users.name AS mentor, classes.start_date, classes.end_date").Joins("JOIN users ON classes.user_id = users.id").Find(&classesModel)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	menteeCoreAll := ListModelToCore(classesModel)
+	return menteeCoreAll, nil
 }
 
 // Update implements classes.ClassDataInterface

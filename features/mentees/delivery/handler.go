@@ -19,7 +19,7 @@ func New(srv mentees.MenteeServiceInterface) *MenteeHandler {
 	}
 }
 
-func (delivery *MenteeHandler) CreateMentee(c echo.Context) error {
+func (delivery *MenteeHandler) Create(c echo.Context) error {
 	menteeInput := MenteeRequest{}
 	errBind := c.Bind(&menteeInput)
 	if errBind != nil {

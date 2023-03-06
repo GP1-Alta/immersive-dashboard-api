@@ -43,3 +43,11 @@ func UserToCore(data User) users.Core {
 		Role:     data.Role,
 	}
 }
+
+func ListUserToCore(data []User) []users.Core {
+	var dataCore []users.Core
+	for _, v := range data {
+		dataCore = append(dataCore, UserToCore(v))
+	}
+	return dataCore
+}

@@ -39,7 +39,13 @@ func (repo *menteeQuery) Insert(input mentees.Core) error {
 
 // SelectAll implements mentees.MenteeDataInterface
 func (repo *menteeQuery) SelectAll() ([]mentees.Core, error) {
-	panic("unimplemented")
+	var menteesModel []Mentee
+	tx := repo.db.Find(&menteesModel)
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	userCoreAll := ListModelToCore(menteesModel)
+	return userCoreAll, nil
 }
 
 // Update implements mentees.MenteeDataInterface

@@ -47,7 +47,8 @@ func ErrorResponse(err error) (int, interface{}) {
 	case strings.Contains(msg, "format"):
 		code = http.StatusBadRequest
 	case strings.Contains(msg, "not found"):
-		code = http.StatusNotFound
+			resp["message"] = "data not found"
+			code = http.StatusNotFound
 	case strings.Contains(msg, "conflict"):
 		code = http.StatusConflict
 	case strings.Contains(msg, "Duplicate"):

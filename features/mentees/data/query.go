@@ -44,8 +44,8 @@ func (repo *menteeQuery) SelectAll() ([]mentees.Core, error) {
 	if tx.Error != nil {
 		return nil, tx.Error
 	}
-	userCoreAll := ListModelToCore(menteesModel)
-	return userCoreAll, nil
+	menteeCoreAll := ListModelToCore(menteesModel)
+	return menteeCoreAll, nil
 }
 
 // Update implements mentees.MenteeDataInterface

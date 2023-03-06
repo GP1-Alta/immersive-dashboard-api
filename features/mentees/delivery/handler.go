@@ -66,3 +66,12 @@ func (delivery *MenteeHandler) Delete(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, helper.Response("Success Delete Mentee"))
 }
+
+func (delivery *MenteeHandler) GetAll(c echo.Context) error {
+	data, err := delivery.menteeService.GetAll()
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, helper.Response("Failed, error read data"))
+	}
+	dataResponse := listCoreToResponse(data)
+	return c.JSON(http.StatusOK, helper.ResponseWithData("Success", dataResponse))
+}

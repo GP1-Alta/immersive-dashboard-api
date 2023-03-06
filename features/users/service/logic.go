@@ -82,3 +82,18 @@ func (us *userService) GetUser(pageNum int, keyword string) ([]users.Core, error
 	}
 	return tmp, nil
 }
+
+func (us *userService) UpdateUserSrv(id int, updateUser users.Core) error {
+	passBcrypt, errBcrypt := helper.PassBcrypt(updateUser.Password)
+	if errBcrypt != nil {
+		log.Println("error bcrypt:", errBcrypt)
+		return errBcrypt
+	}
+	updateUser.Password = passBcrypt
+	
+	err := us.data.UpdateUserData(id, updateUser)
+	if err != nil {
+		return err
+	}
+	return nil
+}

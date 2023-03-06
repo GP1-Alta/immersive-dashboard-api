@@ -17,6 +17,7 @@ type LoginReq struct {
 type UpdateReq struct {
 	Name     string `json:"name" form:"name"`
 	Email    string `json:"email" form:"email"`
+	Password string `json:"password" form:"password"`
 	Team     string `json:"team" form:"team"`
 	Status   string `json:"status" form:"status"`
 }

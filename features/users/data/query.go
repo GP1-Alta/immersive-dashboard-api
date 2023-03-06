@@ -54,3 +54,13 @@ func (uq *userQuery) GetUser(pageNum int, keyword string) ([]users.Core, error) 
 	listUser := ListUserToCore(tmp)
 	return listUser, nil
 }
+
+func (uq *userQuery) UpdateUserData(id int, updateUser users.Core) error {
+	data := CoreToUser(updateUser)
+	tx := uq.db.Model(&User{}).Where("id = ?", id).Updates(&data)
+	if tx.Error != nil {
+		return tx.Error
+	}
+	return nil
+}
+

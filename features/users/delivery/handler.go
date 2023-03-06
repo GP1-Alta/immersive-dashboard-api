@@ -74,3 +74,25 @@ func (ud *userDelivery) GetUser() echo.HandlerFunc {
 		return c.JSON(helper.SuccessResponse(http.StatusOK, "successfully get all user", res))
 	}
 }
+
+func (ud *userDelivery) UpdateUser() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		id, err := strconv.Atoi(c.Param("id"))
+		if err != nil {
+			return c.JSON(helper.ErrorResponse(err))
+		}
+		updateInput := UpdateReq{}
+		if err := c.Bind(&updateInput); err != nil {
+			log.Println("error bind", err)
+			return c.JSON(helper.ErrorResponse(err))
+		}
+		log.Println(updateInput)
+		updateUser := users.Core{}
+		copier.Copy(&updateUser, &updateInput)
+		if err := ud.srv.UpdateUserSrv(id, updateUser); err != nil{
+			log.Println("error handler", err)
+			return c.JSON(helper.ErrorResponse(err))
+		}
+		return c.JSON(helper.SuccessResponse(http.StatusOK, "Success Update User"))
+	}
+}

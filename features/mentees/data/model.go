@@ -8,11 +8,21 @@ import (
 
 type Mentee struct {
 	gorm.Model
-	Email    string
-	Name     string
-	Sex      string
-	Status   string `gorm:"type:enum('Interview', 'Join Class', 'Unit 1', 'Unit 2', 'Unit 3', 'Repeat Unit 1', 'Repeat Unit 2', 'Repeat Unit 3', 'Placement', 'Eliminated', 'Graduated')"`
-	ClassID  uint
-	Category string `gorm:"type:enum('Informatics','Non-Informatics')"`
-	Logs     []_modelLog.Log
+	Name            string
+	Address         string
+	HomeAddress     string
+	Email           string
+	Sex             string `gorm:"type:enum('Male', 'Female')"`
+	Telegram        string
+	Phone           string
+	Discord         string
+	StatusID        uint
+	ClassID         uint
+	EmergencyName   string
+	EmergencyPhone  string
+	EmergencyStatus string `gorm:"type:enum('Orang Tua', 'Kakek Nenek', 'Saudara dari Orang Tua')"`
+	Category        string `gorm:"type:enum('Informatics','Non-Informatics')"`
+	Major           string
+	Institution     string
+	Logs            []_modelLog.Log
 }

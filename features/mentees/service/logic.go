@@ -43,10 +43,11 @@ func (service *menteeService) Edit(input mentees.Core, id uint) error {
 }
 
 // GetAll implements mentees.MenteeServiceInterface
-func (service *menteeService) GetAll(page int) ([]mentees.Core, error) {
+func (service *menteeService) GetAll(page int, class, status, category, name string) ([]mentees.Core, error) {
 	limit := 10
 	offset := (page - 1) * limit
-	data, err := service.menteeData.SelectAll(limit, offset)
+	nameSearch := "%" + name + "%"
+	data, err := service.menteeData.SelectAll(limit, offset, class, status, category, nameSearch)
 	return data, err
 }
 

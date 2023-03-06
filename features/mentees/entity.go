@@ -27,14 +27,14 @@ type Core struct {
 }
 
 type MenteeDataInterface interface {
-	SelectAll(limit, offset int) ([]Core, error)
+	SelectAll(limit, offset int, class, status, category, name string) ([]Core, error)
 	Insert(input Core) error
 	Update(input Core, id uint) error
 	Delete(data Core, id uint) error
 }
 
 type MenteeServiceInterface interface {
-	GetAll(page int) ([]Core, error)
+	GetAll(page int, class, status, category, name string) ([]Core, error)
 	Create(input Core) error
 	Edit(input Core, id uint) error
 	Delete(data Core, id uint) error

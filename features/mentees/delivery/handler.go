@@ -78,7 +78,11 @@ func (delivery *MenteeHandler) GetAll(c echo.Context) error {
 			pageNumber = pageConv
 		}
 	}
-	data, err := delivery.menteeService.GetAll(pageNumber)
+	classParam := c.QueryParam("class")
+	statusParam := c.QueryParam("status")
+	categoryParam := c.QueryParam("category")
+	nameParam := c.QueryParam("name")
+	data, err := delivery.menteeService.GetAll(pageNumber, classParam, statusParam, categoryParam, nameParam)
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.Response("Failed, error read data"))
 	}

@@ -38,9 +38,9 @@ func (repo *menteeQuery) Insert(input mentees.Core) error {
 }
 
 // SelectAll implements mentees.MenteeDataInterface
-func (repo *menteeQuery) SelectAll(limit, offset int) ([]mentees.Core, error) {
+func (repo *menteeQuery) SelectAll(limit, offset int, class, status, category, name string) ([]mentees.Core, error) {
 	var menteesModel []Mentee
-	tx := repo.db.Limit(limit).Offset(offset).Table("mentees").Select("mentees.id, mentees.name, classes.name AS class, statuses.name AS status, mentees.category, mentees.sex").Joins("JOIN classes ON classes.id = mentees.class_id").Joins("JOIN statuses ON statuses.id = mentees.status_id").Find(&menteesModel)
+	tx := repo.db.Where("mentees.name LIKE ?", name).Joins("JOIN classes ON classes.id = mentees.class_id").Joins("JOIN statuses ON statuses.id = mentees.status_id").Find(&menteesModel)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}

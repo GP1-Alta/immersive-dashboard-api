@@ -36,7 +36,11 @@ func (service *classService) Edit(input classes.Core, id uint) error {
 
 // GetAll implements classes.ClassServiceInterface
 func (service *classService) GetAll(page int, name string) ([]classes.Core, error) {
-	panic("unimplemented")
+	limit := 10
+	offset := (page - 1) * limit
+	nameSearch := "%" + name + "%"
+	data, err := service.classData.SelectAll(limit, offset, nameSearch)
+	return data, err
 }
 
 // List implements classes.ClassServiceInterface

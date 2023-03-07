@@ -28,6 +28,7 @@ func InitRouter(db *gorm.DB, e *echo.Echo) {
 	classHandlerAPI := _classHandler.New(classService)
 	e.POST("/classes", classHandlerAPI.Create)
 	e.GET("/classes", classHandlerAPI.GetAll)
+	e.GET("/classes/list", classHandlerAPI.List)
 	e.PUT("/classes/:id", classHandlerAPI.Edit)
 	e.DELETE("/classes/:id", classHandlerAPI.Delete)
 }

@@ -87,3 +87,12 @@ func (delivery *ClassHandler) Delete(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, helper.Response("Success Delete Class"))
 }
+
+func (delivery *ClassHandler) List(c echo.Context) error {
+	data, err := delivery.classService.List()
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, helper.Response("Failed, error read data"))
+	}
+	dataResponse := listCoreToResponseList(data)
+	return c.JSON(http.StatusOK, helper.ResponseWithData("Success", dataResponse))
+}

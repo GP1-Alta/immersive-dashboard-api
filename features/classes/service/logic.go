@@ -53,7 +53,8 @@ func (service *classService) GetAll(page int, name string) ([]classes.Core, erro
 
 // List implements classes.ClassServiceInterface
 func (service *classService) List() ([]classes.Core, error) {
-	panic("unimplemented")
+	data, err := service.classData.ListAll()
+	return data, err
 }
 
 func New(repo classes.ClassDataInterface) classes.ClassServiceInterface {

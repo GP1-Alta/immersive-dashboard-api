@@ -55,9 +55,25 @@ func (uq *userQuery) GetUser(pageNum int, keyword string) ([]users.Core, error) 
 	return listUser, nil
 }
 
+func (uq *userQuery) GetMentorData() ([]users.Core, error) {
+	tmp := []User{}
+	tx := uq.db.Where("team = ?", "Mentor").Find(&tmp)
+	if tx.RowsAffected < 1 {
+		return nil, errors.New("not found")
+	}
+	if tx.Error != nil {
+		return nil, tx.Error
+	}
+	listMentor := ListUserToCore(tmp)
+	return listMentor, nil
+}
+
 func (uq *userQuery) UpdateUserData(id int, updateUser users.Core) error {
 	data := CoreToUser(updateUser)
 	tx := uq.db.Model(&User{}).Where("id = ?", id).Updates(&data)
+	if tx.RowsAffected < 1 {
+		return errors.New("not found")
+	}
 	if tx.Error != nil {
 		return tx.Error
 	}

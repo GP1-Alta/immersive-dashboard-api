@@ -14,7 +14,7 @@ type menteeQuery struct {
 // Select implements mentees.MenteeDataInterface
 func (repo *menteeQuery) Select(id uint) (mentees.Core, error) {
 	var menteesModel Mentee
-	tx := repo.db.Find(&menteesModel)
+	tx := repo.db.Where("id = ?", id).Select("mentees.id, mentees.name, classes.name AS class, mentees.institution, mentees.phone, mentees.telegram, mentees.discord, mentees.email").Joins("JOIN classes ON classes.id = mentees.class_id").Find(&menteesModel)
 	if tx.Error != nil {
 		return mentees.Core{}, tx.Error
 	}

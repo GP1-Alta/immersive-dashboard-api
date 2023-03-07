@@ -87,7 +87,7 @@ func (repo *menteeQuery) SelectAll(limit, offset int, class, status, category, n
 			return nil, tx.Error
 		}
 	} else if class == "" && status == "" && category == "" && name != "" {
-		tx := repo.db.Limit(limit).Offset(offset).Where("mentees.name LIKE ?", nameSearch).Order("mentees.name").Select("mentees.id, mentees.name, classes.name AS class, statuses.name AS status, mentees.category, mentees.sex").Joins("JOIN classes ON classes.id = mentees.class_id").Joins("JOIN statuses ON statuses.id = mentees.status_id").Find(&menteesModel)
+		tx := repo.db.Limit(limit).Offset(offset).Where("mentees.name LIKE ?", nameSearch).Select("mentees.id, mentees.name, classes.name AS class, statuses.name AS status, mentees.category, mentees.sex").Joins("JOIN classes ON classes.id = mentees.class_id").Joins("JOIN statuses ON statuses.id = mentees.status_id").Find(&menteesModel)
 		if tx.Error != nil {
 			return nil, tx.Error
 		}

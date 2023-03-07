@@ -30,6 +30,7 @@ func InitRouter(db *gorm.DB, e *echo.Echo) {
 	menteeService := _menteeService.New(menteeData)
 	menteeHandlerAPI := _menteeHandler.New(menteeService)
 	e.GET("/mentees", menteeHandlerAPI.GetAll, middlewares.JWTMiddleware())
+	e.GET("/mentees/:id", menteeHandlerAPI.Get, middlewares.JWTMiddleware())
 	e.POST("/mentees", menteeHandlerAPI.Create, middlewares.JWTMiddleware())
 	e.PUT("/mentees/:id", menteeHandlerAPI.Edit, middlewares.JWTMiddleware())
 	e.DELETE("/mentees/:id", menteeHandlerAPI.Delete, middlewares.JWTMiddleware())
@@ -44,7 +45,7 @@ func InitRouter(db *gorm.DB, e *echo.Echo) {
 	e.PUT("/classes/:id", classHandlerAPI.Edit, middlewares.JWTMiddleware())
 	e.DELETE("/classes/:id", classHandlerAPI.Delete, middlewares.JWTMiddleware())
 
-	//classes
+	//status
 	statusData := _statusData.New(db)
 	statusService := _statusService.New(statusData)
 	statusHandlerAPI := _statusHandler.New(statusService)

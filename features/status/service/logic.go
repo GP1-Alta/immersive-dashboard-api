@@ -13,7 +13,8 @@ type statusService struct {
 
 // GetAll implements status.StatusServiceInterface
 func (service *statusService) GetAll() ([]status.Core, error) {
-	panic("unimplemented")
+	data, err := service.statusData.SelectAll()
+	return data, err
 }
 
 func New(repo status.StatusDataInterface) status.StatusServiceInterface {

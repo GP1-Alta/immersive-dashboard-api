@@ -11,6 +11,17 @@ type menteeQuery struct {
 	db *gorm.DB
 }
 
+// Select implements mentees.MenteeDataInterface
+func (repo *menteeQuery) Select(id uint) (mentees.Core, error) {
+	var menteesModel Mentee
+	tx := repo.db.Find(&menteesModel)
+	if tx.Error != nil {
+		return mentees.Core{}, tx.Error
+	}
+	menteeCore := ModelToCore(menteesModel)
+	return menteeCore, nil
+}
+
 // Delete implements mentees.MenteeDataInterface
 func (repo *menteeQuery) Delete(data mentees.Core, id uint) error {
 	dataModel := CoreToModel(data)

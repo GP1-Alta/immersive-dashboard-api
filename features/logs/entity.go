@@ -1,6 +1,11 @@
 package logs
 
-import "github.com/labstack/echo/v4"
+import (
+	"time"
+
+	"github.com/labstack/echo/v4"
+	// "gorm.io/datatypes"
+)
 
 type Core struct {
 	ID         uint
@@ -10,7 +15,7 @@ type Core struct {
 	StatusID   uint
 	StatusName string
 	Feedback   string `validate:"required"`
-	CreatedAt  string
+	CreatedAt  time.Time
 	Image      string
 }
 

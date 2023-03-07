@@ -43,7 +43,7 @@ func (ld *logDelivery) AddLog() echo.HandlerFunc {
 			log.Println("error handler", err)
 			return c.JSON(helper.ErrorResponse(err))
 		}
-		return c.JSON(helper.SuccessResponse(http.StatusCreated, "Success Added Log"))
+		return c.JSON(helper.SuccessResponse(http.StatusCreated, "Success Add Log"))
 	}
 }
 
@@ -59,6 +59,6 @@ func (ld *logDelivery) GetLog() echo.HandlerFunc {
 		res := ListLogResponse{}
 		copier.Copy(&res, &data)
 
-		return c.JSON(helper.SuccessResponse(http.StatusOK, "successfully get all log", res))
+		return c.JSON(helper.SuccessResponse(http.StatusOK, "Success Get All Log", res))
 	}
 }

@@ -2,6 +2,7 @@ package data
 
 import (
 	"immersive-dashboard/features/logs"
+	"time"
 
 	"gorm.io/gorm"
 )
@@ -14,7 +15,7 @@ type Log struct {
 	StatusID   uint
 	StatusName string
 	Feedback   string
-	CreatedAt  string
+	CreatedAt  time.Time
 	Image      string
 }
 

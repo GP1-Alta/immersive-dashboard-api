@@ -52,8 +52,7 @@ func (service *menteeService) Edit(input mentees.Core, id uint) error {
 func (service *menteeService) GetAll(page int, class, status, category, name string) ([]mentees.Core, error) {
 	limit := 10
 	offset := (page - 1) * limit
-	nameSearch := "%" + name + "%"
-	data, err := service.menteeData.SelectAll(limit, offset, class, status, category, nameSearch)
+	data, err := service.menteeData.SelectAll(limit, offset, class, status, category, name)
 	return data, err
 }
 

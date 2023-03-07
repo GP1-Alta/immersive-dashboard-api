@@ -2,6 +2,7 @@ package data
 
 import (
 	"errors"
+	"fmt"
 	"immersive-dashboard/features/mentees"
 
 	"gorm.io/gorm"
@@ -50,10 +51,51 @@ func (repo *menteeQuery) Insert(input mentees.Core) error {
 
 // SelectAll implements mentees.MenteeDataInterface
 func (repo *menteeQuery) SelectAll(limit, offset int, class, status, category, name string) ([]mentees.Core, error) {
+	var whereClause string
+	nameSearch := "%" + name + "%"
+	classField := "classes.name"
+	statusField := "statuses.name"
+	categoryField := "mentees.category"
+
+	//one filter
+	if class != "" && status == "" && category == "" {
+		whereClause = fmt.Sprintf("%s = '%s'", classField, class)
+	} else if class == "" && status != "" && category == "" && name == "" {
+		whereClause = fmt.Sprintf("%s = '%s'", statusField, status)
+	} else if class == "" && status == "" && category != "" && name == "" {
+		whereClause = fmt.Sprintf("%s = '%s'", categoryField, category)
+	}
+
+	//two filter
+	if class != "" && status != "" && category == "" {
+		whereClause = fmt.Sprintf("%s = '%s' AND %s = '%s'", classField, class, statusField, status)
+	} else if class == "" && status != "" && category != "" {
+		whereClause = fmt.Sprintf("%s = '%s' AND %s = '%s'", statusField, status, categoryField, category)
+	} else if class != "" && status == "" && category != "" {
+		whereClause = fmt.Sprintf("%s = '%s' AND %s = '%s'", classField, class, categoryField, category)
+	}
+
+	//three filter
+	if class != "" && status != "" && category != "" {
+		whereClause = fmt.Sprintf("%s = '%s' AND %s = '%s' AND %s = '%s'", classField, class, statusField, status, categoryField, category)
+	}
+
 	var menteesModel []Mentee
-	tx := repo.db.Limit(limit).Offset(offset).Where("mentees.name LIKE ?", name).Select("mentees.id, mentees.name, classes.name AS class, statuses.name AS status, mentees.category, mentees.sex").Joins("JOIN classes ON classes.id = mentees.class_id").Joins("JOIN statuses ON statuses.id = mentees.status_id").Find(&menteesModel)
-	if tx.Error != nil {
-		return nil, tx.Error
+	if class == "" && status == "" && category == "" && name == "" {
+		tx := repo.db.Limit(limit).Offset(offset).Order("mentees.name").Select("mentees.id, mentees.name, classes.name AS class, statuses.name AS status, mentees.category, mentees.sex").Joins("JOIN classes ON classes.id = mentees.class_id").Joins("JOIN statuses ON statuses.id = mentees.status_id").Find(&menteesModel)
+		if tx.Error != nil {
+			return nil, tx.Error
+		}
+	} else if class == "" && status == "" && category == "" && name != "" {
+		tx := repo.db.Limit(limit).Offset(offset).Where("mentees.name LIKE ?", nameSearch).Order("mentees.name").Select("mentees.id, mentees.name, classes.name AS class, statuses.name AS status, mentees.category, mentees.sex").Joins("JOIN classes ON classes.id = mentees.class_id").Joins("JOIN statuses ON statuses.id = mentees.status_id").Find(&menteesModel)
+		if tx.Error != nil {
+			return nil, tx.Error
+		}
+	} else {
+		tx := repo.db.Limit(limit).Offset(offset).Where(whereClause).Order("mentees.name").Select("mentees.id, mentees.name, classes.name AS class, statuses.name AS status, mentees.category, mentees.sex").Joins("JOIN classes ON classes.id = mentees.class_id").Joins("JOIN statuses ON statuses.id = mentees.status_id").Find(&menteesModel)
+		if tx.Error != nil {
+			return nil, tx.Error
+		}
 	}
 	menteeCoreAll := ListModelToCore(menteesModel)
 	return menteeCoreAll, nil

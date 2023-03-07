@@ -14,6 +14,9 @@ import (
 	_userData "immersive-dashboard/features/users/data"
 	_userHandler "immersive-dashboard/features/users/delivery"
 	_userService "immersive-dashboard/features/users/service"
+	_logData "immersive-dashboard/features/logs/data"
+	_logHandler "immersive-dashboard/features/logs/delivery"
+	_logService "immersive-dashboard/features/logs/service"
 )
 
 func InitRouter(db *gorm.DB, e *echo.Echo) {
@@ -39,10 +42,16 @@ func InitRouter(db *gorm.DB, e *echo.Echo) {
 	userData := _userData.New(db)
 	userSrv := _userService.New(userData, v)
 	userHdl := _userHandler.New(userSrv)
+	
+	logData := _logData.New(db)
+	logSrv := _logService.New(logData, v)
+	logHdl := _logHandler.New(logSrv)
 
 	e.POST("/register", userHdl.Register())
 	e.POST("/login", userHdl.Login())
 	e.GET("/users", userHdl.GetUser())
 	e.PUT("/users/:id", userHdl.UpdateUser())
 	e.DELETE("/users/:id", userHdl.Delete())
+
+	e.POST("/mentees/:mentee_id/logs", logHdl.AddLog())
 }

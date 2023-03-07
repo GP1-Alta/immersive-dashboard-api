@@ -3,6 +3,7 @@ package delivery
 import (
 	"immersive-dashboard/features/users"
 	helper "immersive-dashboard/utils/helper"
+	jwt "immersive-dashboard/middlewares"
 	"log"
 	"net/http"
 	"strconv"
@@ -77,10 +78,7 @@ func (ud *userDelivery) GetUser() echo.HandlerFunc {
 
 func (ud *userDelivery) UpdateUser() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		id, err := strconv.Atoi(c.Param("id"))
-		if err != nil {
-			return c.JSON(helper.ErrorResponse(err))
-		}
+		id := int(jwt.ExtractTokenUserId(c))
 		updateInput := UpdateReq{}
 		if err := c.Bind(&updateInput); err != nil {
 			log.Println("error bind", err)
@@ -99,11 +97,7 @@ func (ud *userDelivery) UpdateUser() echo.HandlerFunc {
 
 func (ud *userDelivery) Delete() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		id, err := strconv.Atoi(c.Param("id"))
-		if err != nil {
-			return c.JSON(helper.ErrorResponse(err))
-		}
-
+		id := int(jwt.ExtractTokenUserId(c))
 		if err := ud.srv.DeleteSrv(id); err != nil{
 			log.Println("error handler", err)
 			return c.JSON(helper.ErrorResponse(err))

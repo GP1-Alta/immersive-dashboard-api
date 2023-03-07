@@ -2,6 +2,7 @@ package delivery
 
 import (
 	"immersive-dashboard/features/logs"
+	jwt "immersive-dashboard/middlewares"
 	helper "immersive-dashboard/utils/helper"
 	"log"
 	"net/http"
@@ -23,18 +24,20 @@ func New(service logs.LogService) logs.LogDelivery {
 
 func (ld *logDelivery) AddLog() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		userID := int(jwt.ExtractTokenUserId(c))
 		menteeID, errCnv := strconv.Atoi(c.Param("mentee_id"))
 		if errCnv != nil {
 			return c.JSON(helper.ErrorResponse(errCnv))
 		}
-		
+
 		addInput := AddLogReq{}
 		if err := c.Bind(&addInput); err != nil {
 			log.Println("error bind", err)
 			return c.JSON(helper.ErrorResponse(err))
 		}
 		addInput.MenteeID = uint(menteeID)
-		
+		addInput.UserID = uint(userID)
+
 		newLog := logs.Core{}
 		copier.Copy(&newLog, &addInput)
 

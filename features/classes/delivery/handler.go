@@ -73,3 +73,17 @@ func (delivery *ClassHandler) Edit(c echo.Context) error {
 	}
 	return c.JSON(http.StatusOK, helper.Response("Success Update Class"))
 }
+
+func (delivery *ClassHandler) Delete(c echo.Context) error {
+	id := c.Param("id")
+	idConv, errConv := strconv.Atoi(id)
+	if errConv != nil {
+		return c.JSON(http.StatusBadRequest, helper.Response("Failed Delete Class, id param must number"))
+	}
+	var dataCore classes.Core
+	err := delivery.classService.Delete(dataCore, uint(idConv))
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, helper.Response("Failed Delete Class, error delete data"))
+	}
+	return c.JSON(http.StatusOK, helper.Response("Success Delete Class"))
+}

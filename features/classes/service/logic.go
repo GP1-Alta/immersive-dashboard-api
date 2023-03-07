@@ -26,7 +26,11 @@ func (service *classService) Create(input classes.Core) error {
 
 // Delete implements classes.ClassServiceInterface
 func (service *classService) Delete(data classes.Core, id uint) error {
-	panic("unimplemented")
+	errDelete := service.classData.Delete(data, id)
+	if errDelete != nil {
+		return errDelete
+	}
+	return nil
 }
 
 // Edit implements classes.ClassServiceInterface

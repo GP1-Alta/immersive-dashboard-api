@@ -89,3 +89,17 @@ func (delivery *MenteeHandler) GetAll(c echo.Context) error {
 	dataResponse := listCoreToResponse(data)
 	return c.JSON(http.StatusOK, helper.ResponseWithData("Success", dataResponse))
 }
+
+func (delivery *MenteeHandler) Get(c echo.Context) error {
+	id := c.Param("id")
+	idConv, errConv := strconv.Atoi(id)
+	if errConv != nil {
+		return c.JSON(http.StatusBadRequest, helper.Response("Failed Delete Mentee, id param must number"))
+	}
+	data, err := delivery.menteeService.Get(uint(idConv))
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, helper.Response("Failed, error read data"))
+	}
+	dataResponse := coreToDetailMenteeResponse(data)
+	return c.JSON(http.StatusOK, helper.ResponseWithData("Success", dataResponse))
+}

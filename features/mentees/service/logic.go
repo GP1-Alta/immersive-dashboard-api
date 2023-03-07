@@ -11,6 +11,12 @@ type menteeService struct {
 	validate   *validator.Validate
 }
 
+// Get implements mentees.MenteeServiceInterface
+func (service *menteeService) Get(id uint) (mentees.Core, error) {
+	data, err := service.menteeData.Select(id)
+	return data, err
+}
+
 // Create implements mentees.MenteeServiceInterface
 func (service *menteeService) Create(input mentees.Core) error {
 	errValidate := service.validate.Struct(input)

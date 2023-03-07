@@ -29,3 +29,29 @@ func listCoreToResponse(dataCore []mentees.Core) []MenteeResponse {
 	}
 	return dataResponse
 }
+
+type DetailMenteeResponse struct {
+	ID          uint   `json:"id"`
+	Name        string `json:"name"`
+	Class       string `json:"class"`
+	Major       string `json:"major"`
+	Institution string `json:"institution"`
+	Phone       string `json:"phone"`
+	Telegram    string `jsons:"telegram"`
+	Discord     string `json:"discord"`
+	Email       string `json:"email"`
+}
+
+func coreToDetailMenteeResponse(dataCore mentees.Core) DetailMenteeResponse {
+	return DetailMenteeResponse{
+		ID:          dataCore.ID,
+		Name:        dataCore.Name,
+		Class:       dataCore.Class,
+		Major:       dataCore.Major,
+		Institution: dataCore.Institution,
+		Phone:       dataCore.Phone,
+		Telegram:    dataCore.Telegram,
+		Discord:     dataCore.Discord,
+		Email:       dataCore.Email,
+	}
+}

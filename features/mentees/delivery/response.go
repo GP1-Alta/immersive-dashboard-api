@@ -37,7 +37,7 @@ type DetailMenteeResponse struct {
 	Major       string `json:"major"`
 	Institution string `json:"institution"`
 	Phone       string `json:"phone"`
-	Telegram    string `jsons:"telegram"`
+	Telegram    string `json:"telegram"`
 	Discord     string `json:"discord"`
 	Email       string `json:"email"`
 }

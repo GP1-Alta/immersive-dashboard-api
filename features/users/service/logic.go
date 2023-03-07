@@ -83,6 +83,15 @@ func (us *userService) GetUser(pageNum int, keyword string) ([]users.Core, error
 	return tmp, nil
 }
 
+func (us *userService) GetMentorSrv() ([]users.Core, error) {
+	tmp, err := us.data.GetMentorData()
+	if err != nil {
+		log.Println("error data:", err)
+		return nil, err
+	}
+	return tmp, nil
+}
+
 func (us *userService) UpdateUserSrv(id int, updateUser users.Core) error {
 	passBcrypt, errBcrypt := helper.PassBcrypt(updateUser.Password)
 	if errBcrypt != nil {

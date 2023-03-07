@@ -61,9 +61,10 @@ func InitRouter(db *gorm.DB, e *echo.Echo) {
 
 	e.POST("/register", userHdl.Register())
 	e.POST("/login", userHdl.Login())
-	e.GET("/users", userHdl.GetUser())
-	e.PUT("/users/:id", userHdl.UpdateUser())
-	e.DELETE("/users/:id", userHdl.Delete())
+	e.GET("/users", userHdl.GetUser(), middlewares.JWTMiddleware())
+	e.GET("/mentors", userHdl.GetMentor(), middlewares.JWTMiddleware())
+	e.PUT("/users", userHdl.UpdateUser(), middlewares.JWTMiddleware())
+	e.DELETE("/users", userHdl.Delete(), middlewares.JWTMiddleware())
 
-	e.POST("/mentees/:mentee_id/logs", logHdl.AddLog())
+	e.POST("/mentees/:mentee_id/logs", logHdl.AddLog(), middlewares.JWTMiddleware())
 }

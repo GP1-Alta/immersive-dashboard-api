@@ -76,6 +76,20 @@ func (ud *userDelivery) GetUser() echo.HandlerFunc {
 	}
 }
 
+func (ud *userDelivery) GetMentor() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		data, err := ud.srv.GetMentorSrv()
+		if err != nil {
+			log.Println("error handler", err)
+			return c.JSON(helper.ErrorResponse(err))
+		}
+		res := ListMentorResponse{}
+		copier.Copy(&res, &data)
+
+		return c.JSON(helper.SuccessResponse(http.StatusOK, "successfully get all mentor", res))
+	}
+}
+
 func (ud *userDelivery) UpdateUser() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id := int(jwt.ExtractTokenUserId(c))

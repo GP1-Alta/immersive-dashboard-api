@@ -18,9 +18,9 @@ type Mentee struct {
 	Phone           string
 	Discord         string
 	StatusID        uint
-	Status          string `gorm:"-:migration"`
+	Status          string
 	ClassID         uint
-	Class           string `gorm:"-:migration"`
+	Class           string
 	EmergencyName   string
 	EmergencyPhone  string
 	EmergencyStatus string `gorm:"type:enum('Orang Tua', 'Kakek Nenek', 'Saudara dari Orang Tua')"`

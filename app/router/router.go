@@ -1,6 +1,9 @@
 package router
 
 import (
+	_classData "immersive-dashboard/features/classes/data"
+	_classHandler "immersive-dashboard/features/classes/delivery"
+	_classService "immersive-dashboard/features/classes/service"
 	_menteeData "immersive-dashboard/features/mentees/data"
 	_menteeHandler "immersive-dashboard/features/mentees/delivery"
 	_menteeService "immersive-dashboard/features/mentees/service"
@@ -18,4 +21,10 @@ func InitRouter(db *gorm.DB, e *echo.Echo) {
 	e.POST("/mentees", menteeHandlerAPI.Create)
 	e.PUT("/mentees/:id", menteeHandlerAPI.Edit)
 	e.DELETE("/mentees/:id", menteeHandlerAPI.Delete)
+
+	//classes
+	classData := _classData.New(db)
+	classService := _classService.New(classData)
+	classHandlerAPI := _classHandler.New(classService)
+	e.POST("/classes", classHandlerAPI.Create)
 }

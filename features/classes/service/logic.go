@@ -31,7 +31,11 @@ func (service *classService) Delete(data classes.Core, id uint) error {
 
 // Edit implements classes.ClassServiceInterface
 func (service *classService) Edit(input classes.Core, id uint) error {
-	panic("unimplemented")
+	errUpdate := service.classData.Update(input, id)
+	if errUpdate != nil {
+		return errUpdate
+	}
+	return nil
 }
 
 // GetAll implements classes.ClassServiceInterface

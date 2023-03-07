@@ -47,7 +47,15 @@ func (repo *classQuery) SelectAll(limit int, offset int, name string) ([]classes
 
 // Update implements classes.ClassDataInterface
 func (repo *classQuery) Update(input classes.Core, id uint) error {
-	panic("unimplemented")
+	dataModel := CoreToModel(input)
+	tx := repo.db.Where("id = ?", id).Updates(&dataModel)
+	if tx.Error != nil {
+		return tx.Error
+	}
+	if tx.RowsAffected == 0 {
+		return errors.New("update error, row affected = 0")
+	}
+	return nil
 }
 
 func New(db *gorm.DB) classes.ClassDataInterface {

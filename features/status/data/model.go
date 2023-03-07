@@ -7,6 +7,7 @@ import (
 	"gorm.io/gorm"
 )
 
+// status
 type Status struct {
 	gorm.Model
 	Name    string

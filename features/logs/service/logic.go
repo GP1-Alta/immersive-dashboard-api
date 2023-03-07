@@ -32,3 +32,12 @@ func (ls *logService) AddLogSrv(newLog logs.Core) error {
 	}
 	return nil
 }
+
+func (ls *logService) GetLogSrv(id, pageNum int) ([]logs.Core, error) {
+	tmp, err := ls.data.GetLogData(id, pageNum)
+	if err != nil {
+		log.Println("error data:", err)
+		return nil, err
+	}
+	return tmp, nil
+}

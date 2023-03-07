@@ -40,11 +40,11 @@ func (uq *userQuery) LoginData(email string) (users.Core, error) {
 
 func (uq *userQuery) GetUser(pageNum int, keyword string) ([]users.Core, error) {
 	tmp := []User{}
-	pageSize := 2
+	limit := 10
 	log.Println("key:", keyword)
-	offset := (pageNum - 1) * pageSize
+	offset := (pageNum - 1) * limit
 	// tx := uq.db.Raw("SELECT * FROM users LIMIT ?, OFFSET ? WHERE name = ?", pageSize, offset, keyword).Find(&tmp)
-	tx := uq.db.Where("name LIKE ?", "%"+keyword+"%").Offset(offset).Limit(pageSize).Find(&tmp)
+	tx := uq.db.Where("name LIKE ?", "%"+keyword+"%").Offset(offset).Limit(limit).Find(&tmp)
 	if tx.RowsAffected < 1 {
 		return nil, errors.New("not found")
 	}

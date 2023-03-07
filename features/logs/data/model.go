@@ -2,35 +2,48 @@ package data
 
 import (
 	"immersive-dashboard/features/logs"
+	"time"
 
 	"gorm.io/gorm"
 )
 
 type Log struct {
 	gorm.Model
-	MenteeID uint
-	UserID   uint
-	StatusID uint
-	Feedback string
+	MenteeID   uint
+	UserID     uint
+	UserName   string
+	StatusID   uint
+	StatusName string
+	Feedback   string
+	CreatedAt  time.Time
+	Image      string
 }
 
 func CoreToLog(data logs.Core) Log {
 	return Log{
-		Model:    gorm.Model{ID: data.Id},
-		MenteeID: data.MenteeID,
-		UserID:   data.UserID,
-		StatusID: data.StatusID,
-		Feedback: data.Feedback,
+		Model:      gorm.Model{ID: data.ID},
+		MenteeID:   data.MenteeID,
+		UserID:     data.UserID,
+		UserName:   data.UserName,
+		StatusID:   data.StatusID,
+		StatusName: data.StatusName,
+		Feedback:   data.Feedback,
+		CreatedAt:  data.CreatedAt,
+		Image:      data.Image,
 	}
 }
 
 func LogToCore(data Log) logs.Core {
 	return logs.Core{
-		Id:       data.ID,
-		MenteeID: data.MenteeID,
-		UserID:   data.UserID,
-		StatusID: data.StatusID,
-		Feedback: data.Feedback,
+		ID:         data.ID,
+		MenteeID:   data.MenteeID,
+		UserID:     data.UserID,
+		UserName:   data.UserName,
+		StatusID:   data.StatusID,
+		StatusName: data.StatusName,
+		Feedback:   data.Feedback,
+		CreatedAt:  data.CreatedAt,
+		Image:      data.Image,
 	}
 }
 

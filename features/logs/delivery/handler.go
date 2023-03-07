@@ -25,10 +25,7 @@ func New(service logs.LogService) logs.LogDelivery {
 func (ld *logDelivery) AddLog() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		userID := int(jwt.ExtractTokenUserId(c))
-		menteeID, errCnv := strconv.Atoi(c.Param("mentee_id"))
-		if errCnv != nil {
-			return c.JSON(helper.ErrorResponse(errCnv))
-		}
+		menteeID, _ := strconv.Atoi(c.Param("id"))
 
 		addInput := AddLogReq{}
 		if err := c.Bind(&addInput); err != nil {
@@ -46,6 +43,22 @@ func (ld *logDelivery) AddLog() echo.HandlerFunc {
 			log.Println("error handler", err)
 			return c.JSON(helper.ErrorResponse(err))
 		}
-		return c.JSON(helper.SuccessResponse(http.StatusCreated, "Success Added Log"))
+		return c.JSON(helper.SuccessResponse(http.StatusCreated, "Success Add Log"))
+	}
+}
+
+func (ld *logDelivery) GetLog() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		menteeID, _ := strconv.Atoi(c.Param("id"))
+		page, _ := strconv.Atoi(c.QueryParam("page"))
+		data, err := ld.srv.GetLogSrv(menteeID, page)
+		if err != nil {
+			log.Println("error handler", err)
+			return c.JSON(helper.ErrorResponse(err))
+		}
+		res := ListLogResponse{}
+		copier.Copy(&res, &data)
+
+		return c.JSON(helper.SuccessResponse(http.StatusOK, "Success Get All Log", res))
 	}
 }

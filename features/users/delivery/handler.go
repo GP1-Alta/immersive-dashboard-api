@@ -36,7 +36,7 @@ func (ud *userDelivery) Register() echo.HandlerFunc {
 			log.Println("error handler", err)
 			return c.JSON(helper.ErrorResponse(err))
 		}
-		return c.JSON(helper.SuccessResponse(http.StatusCreated, "Success register account"))
+		return c.JSON(helper.SuccessResponse(http.StatusCreated, "Success Add User"))
 	}
 }
 
@@ -53,10 +53,10 @@ func (ud *userDelivery) Login() echo.HandlerFunc {
 			return c.JSON(helper.ErrorResponse(err))
 		}
 
-		res := UserResponse{}
+		res := MentorResponse{}
 		copier.Copy(&res, &data)
 
-		return c.JSON(helper.SuccessResponse(http.StatusOK, "Login success", res, token))
+		return c.JSON(helper.SuccessResponse(http.StatusOK, "Login Success", res, token))
 	}
 }
 
@@ -72,7 +72,7 @@ func (ud *userDelivery) GetUser() echo.HandlerFunc {
 		res := ListUserResponse{}
 		copier.Copy(&res, &data)
 
-		return c.JSON(helper.SuccessResponse(http.StatusOK, "successfully get all user", res))
+		return c.JSON(helper.SuccessResponse(http.StatusOK, "Success Get All User", res))
 	}
 }
 
@@ -86,7 +86,7 @@ func (ud *userDelivery) GetMentor() echo.HandlerFunc {
 		res := ListMentorResponse{}
 		copier.Copy(&res, &data)
 
-		return c.JSON(helper.SuccessResponse(http.StatusOK, "successfully get all mentor", res))
+		return c.JSON(helper.SuccessResponse(http.StatusOK, "Success Get All Mentor", res))
 	}
 }
 

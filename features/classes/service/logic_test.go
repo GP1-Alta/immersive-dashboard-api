@@ -123,3 +123,27 @@ func TestSelectAll(t *testing.T) {
 		repo.AssertExpectations(t)
 	})
 }
+
+func TestUpdate(t *testing.T) {
+	repo := new(mocks.ClassData)
+	idClass := uint(1)
+
+	t.Run("Success Update", func(t *testing.T) {
+		repo.On("Update", mock_data_class, mock.AnythingOfType("uint")).Return(nil).Once()
+
+		srv := New(repo)
+		err := srv.Edit(mock_data_class, idClass)
+		assert.Nil(t, err)
+		repo.AssertExpectations(t)
+	})
+
+	t.Run("Failed when func Update return error", func(t *testing.T) {
+		repo.On("Update", mock_data_class, mock.AnythingOfType("uint")).Return(errors.New("error update data")).Once()
+
+		srv := New(repo)
+		err := srv.Edit(mock_data_class, idClass)
+		assert.NotNil(t, err)
+		assert.Equal(t, "error update data", err.Error())
+		repo.AssertExpectations(t)
+	})
+}

@@ -55,7 +55,7 @@
 			<div id="nav">
 				<select id="files">
 				
-				<option value="file0">immersive-dashboard/features/classes/service/logic.go (81.8%)</option>
+				<option value="file0">immersive-dashboard/features/classes/service/logic.go (100.0%)</option>
 				
 				</select>
 			</div>
@@ -105,12 +105,12 @@ func (service *classService) Delete(data classes.Core, id uint) error <span clas
 }
 
 // Edit implements classes.ClassServiceInterface
-func (service *classService) Edit(input classes.Core, id uint) error <span class="cov0" title="0">{
+func (service *classService) Edit(input classes.Core, id uint) error <span class="cov8" title="1">{
         errUpdate := service.classData.Update(input, id)
-        if errUpdate != nil </span><span class="cov0" title="0">{
+        if errUpdate != nil </span><span class="cov8" title="1">{
                 return errUpdate
         }</span>
-        <span class="cov0" title="0">return nil</span>
+        <span class="cov8" title="1">return nil</span>
 }
 
 // GetAll implements classes.ClassServiceInterface

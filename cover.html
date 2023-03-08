@@ -57,7 +57,7 @@
 				
 				<option value="file0">immersive-dashboard/features/classes/service/logic.go (100.0%)</option>
 				
-				<option value="file1">immersive-dashboard/features/mentees/service/logic.go (81.8%)</option>
+				<option value="file1">immersive-dashboard/features/mentees/service/logic.go (100.0%)</option>
 				
 				</select>
 			</div>
@@ -179,12 +179,12 @@ func (service *menteeService) Delete(data mentees.Core, id uint) error <span cla
 }
 
 // Edit implements mentees.MenteeServiceInterface
-func (service *menteeService) Edit(input mentees.Core, id uint) error <span class="cov0" title="0">{
+func (service *menteeService) Edit(input mentees.Core, id uint) error <span class="cov8" title="1">{
         errUpdate := service.menteeData.Update(input, id)
-        if errUpdate != nil </span><span class="cov0" title="0">{
+        if errUpdate != nil </span><span class="cov8" title="1">{
                 return errUpdate
         }</span>
-        <span class="cov0" title="0">return nil</span>
+        <span class="cov8" title="1">return nil</span>
 }
 
 // GetAll implements mentees.MenteeServiceInterface

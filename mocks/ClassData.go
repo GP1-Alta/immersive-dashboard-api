@@ -93,6 +93,30 @@ func (_m *ClassData) SelectAll(limit int, offset int, name string) ([]classes.Co
 	return r0, r1
 }
 
+// SelectOne provides a mock function with given fields: id
+func (_m *ClassData) SelectOne(id uint) (classes.Core, error) {
+	ret := _m.Called(id)
+
+	var r0 classes.Core
+	var r1 error
+	if rf, ok := ret.Get(0).(func(uint) (classes.Core, error)); ok {
+		return rf(id)
+	}
+	if rf, ok := ret.Get(0).(func(uint) classes.Core); ok {
+		r0 = rf(id)
+	} else {
+		r0 = ret.Get(0).(classes.Core)
+	}
+
+	if rf, ok := ret.Get(1).(func(uint) error); ok {
+		r1 = rf(id)
+	} else {
+		r1 = ret.Error(1)
+	}
+
+	return r0, r1
+}
+
 // Update provides a mock function with given fields: input, id
 func (_m *ClassData) Update(input classes.Core, id uint) error {
 	ret := _m.Called(input, id)

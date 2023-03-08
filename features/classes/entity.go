@@ -17,6 +17,7 @@ type Core struct {
 
 type ClassDataInterface interface {
 	SelectAll(limit, offset int, name string) ([]Core, error)
+	SelectOne(id uint) (Core, error)
 	ListAll() ([]Core, error)
 	Insert(input Core) error
 	Update(input Core, id uint) error
@@ -25,6 +26,7 @@ type ClassDataInterface interface {
 
 type ClassServiceInterface interface {
 	GetAll(page int, name string) ([]Core, error)
+	GetOne(id uint) (Core, error)
 	List() ([]Core, error)
 	Create(input Core) error
 	Edit(input Core, id uint) error

@@ -11,6 +11,11 @@ type classQuery struct {
 	db *gorm.DB
 }
 
+// SelectOne implements classes.ClassDataInterface
+func (*classQuery) SelectOne(id uint) (classes.Core, error) {
+	panic("unimplemented")
+}
+
 // Delete implements classes.ClassDataInterface
 func (repo *classQuery) Delete(data classes.Core, id uint) error {
 	dataModel := CoreToModel(data)

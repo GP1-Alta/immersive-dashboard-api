@@ -19,6 +19,9 @@ func (repo *menteeQuery) Select(id uint) (mentees.Core, error) {
 	if tx.Error != nil {
 		return mentees.Core{}, tx.Error
 	}
+	if tx.RowsAffected == 0 {
+		return mentees.Core{}, errors.New("select error, row affected = 0")
+	}
 	menteeCore := ModelToCore(menteesModel)
 	return menteeCore, nil
 }

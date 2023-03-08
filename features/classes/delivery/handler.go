@@ -96,3 +96,17 @@ func (delivery *ClassHandler) List(c echo.Context) error {
 	dataResponse := listCoreToResponseList(data)
 	return c.JSON(http.StatusOK, helper.ResponseWithData("Success", dataResponse))
 }
+
+func (delivery *ClassHandler) Detail(c echo.Context) error {
+	id := c.Param("id")
+	idConv, errConv := strconv.Atoi(id)
+	if errConv != nil {
+		return c.JSON(http.StatusBadRequest, helper.Response("Failed Select Class, id param must number"))
+	}
+	data, err := delivery.classService.GetOne(uint(idConv))
+	if err != nil {
+		return c.JSON(http.StatusInternalServerError, helper.Response("Failed, error read data"))
+	}
+	dataResponse := detailCoreToResponse(data)
+	return c.JSON(http.StatusOK, helper.ResponseWithData("Success", dataResponse))
+}

@@ -11,6 +11,20 @@ type classQuery struct {
 	db *gorm.DB
 }
 
+// SelectOne implements classes.ClassDataInterface
+func (repo *classQuery) SelectOne(id uint) (classes.Core, error) {
+	var classModel Class
+	tx := repo.db.Where("id = ?", id).Find(&classModel)
+	if tx.Error != nil {
+		return classes.Core{}, tx.Error
+	}
+	if tx.RowsAffected == 0 {
+		return classes.Core{}, errors.New("select error, row affected = 0")
+	}
+	menteeCore := ModelToCore(classModel)
+	return menteeCore, nil
+}
+
 // Delete implements classes.ClassDataInterface
 func (repo *classQuery) Delete(data classes.Core, id uint) error {
 	dataModel := CoreToModel(data)

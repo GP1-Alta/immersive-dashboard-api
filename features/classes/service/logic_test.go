@@ -147,3 +147,18 @@ func TestUpdate(t *testing.T) {
 		repo.AssertExpectations(t)
 	})
 }
+
+func TestSelect(t *testing.T) {
+	repo := new(mocks.ClassData)
+	idClass := uint(1)
+
+	t.Run("Success Select One", func(t *testing.T) {
+		repo.On("SelectOne", mock.AnythingOfType("uint")).Return(mock_data_class, nil).Once()
+
+		srv := New(repo)
+		response, err := srv.GetOne(idClass)
+		assert.Nil(t, err)
+		assert.Equal(t, mock_data_class.Name, response.Name)
+		repo.AssertExpectations(t)
+	})
+}

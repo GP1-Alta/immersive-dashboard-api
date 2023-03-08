@@ -94,7 +94,7 @@ func (delivery *MenteeHandler) Get(c echo.Context) error {
 	id := c.Param("id")
 	idConv, errConv := strconv.Atoi(id)
 	if errConv != nil {
-		return c.JSON(http.StatusBadRequest, helper.Response("Failed Delete Mentee, id param must number"))
+		return c.JSON(http.StatusBadRequest, helper.Response("Failed Select Mentee, id param must number"))
 	}
 	data, err := delivery.menteeService.Get(uint(idConv))
 	if err != nil {

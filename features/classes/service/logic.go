@@ -11,6 +11,12 @@ type classService struct {
 	validate  *validator.Validate
 }
 
+// GetOne implements classes.ClassServiceInterface
+func (service *classService) GetOne(id uint) (classes.Core, error) {
+	data, err := service.classData.SelectOne(id)
+	return data, err
+}
+
 // Create implements classes.ClassServiceInterface
 func (service *classService) Create(input classes.Core) error {
 	errValidate := service.validate.Struct(input)

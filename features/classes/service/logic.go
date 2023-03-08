@@ -12,8 +12,9 @@ type classService struct {
 }
 
 // GetOne implements classes.ClassServiceInterface
-func (*classService) GetOne(id uint) (classes.Core, error) {
-	panic("unimplemented")
+func (service *classService) GetOne(id uint) (classes.Core, error) {
+	data, err := service.classData.SelectOne(id)
+	return data, err
 }
 
 // Create implements classes.ClassServiceInterface

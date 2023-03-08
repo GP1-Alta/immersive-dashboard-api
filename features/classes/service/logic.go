@@ -46,8 +46,7 @@ func (service *classService) Edit(input classes.Core, id uint) error {
 func (service *classService) GetAll(page int, name string) ([]classes.Core, error) {
 	limit := 10
 	offset := (page - 1) * limit
-	nameSearch := "%" + name + "%"
-	data, err := service.classData.SelectAll(limit, offset, nameSearch)
+	data, err := service.classData.SelectAll(limit, offset, name)
 	return data, err
 }
 

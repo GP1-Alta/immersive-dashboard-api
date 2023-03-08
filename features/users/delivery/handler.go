@@ -98,10 +98,12 @@ func (ud *userDelivery) GetMentor() echo.HandlerFunc {
 func (ud *userDelivery) UpdateUser() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id := int(jwt.ExtractTokenUserId(c))
-		var userID int
+		userID, _ := strconv.Atoi(c.Param("id"))
 		if c.Param("id") != "" && id == 1 {
 			userID, _ = strconv.Atoi(c.Param("id"))
 		} else if c.Param("id") == "" && id == 1 {
+			userID = id
+		} else if id == userID {
 			userID = id
 		} else {
 			err := errors.New("restricted access")
@@ -130,6 +132,10 @@ func (ud *userDelivery) Delete() echo.HandlerFunc {
 		id := int(jwt.ExtractTokenUserId(c))
 		if id != 1 {
 			err := errors.New("restricted access")
+			return c.JSON(helper.ErrorResponse(err))
+		}
+		if userID == 1 {
+			err := errors.New("deleted admin")
 			return c.JSON(helper.ErrorResponse(err))
 		}
 		if err := ud.srv.DeleteSrv(userID); err != nil{

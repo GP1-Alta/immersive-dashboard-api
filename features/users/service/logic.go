@@ -93,6 +93,9 @@ func (us *userService) GetMentorSrv() ([]users.Core, error) {
 }
 
 func (us *userService) UpdateUserSrv(id int, updateUser users.Core) error {
+	if updateUser.Password == "" {
+		return errors.New("password do not empty")
+	}
 	passBcrypt, errBcrypt := helper.PassBcrypt(updateUser.Password)
 	if errBcrypt != nil {
 		log.Println("error bcrypt:", errBcrypt)

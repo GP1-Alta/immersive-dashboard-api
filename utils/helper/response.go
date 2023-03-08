@@ -52,6 +52,9 @@ func ErrorResponse(err error) (int, interface{}) {
 	case strings.Contains(msg, "not found"):
 		resp["message"] = "data not found"
 		code = http.StatusNotFound
+	case strings.Contains(msg, "access"):
+		resp["message"] = "restricted access"
+		code = http.StatusInternalServerError
 	case strings.Contains(msg, "conflict"):
 		code = http.StatusConflict
 	case strings.Contains(msg, "Duplicate"):

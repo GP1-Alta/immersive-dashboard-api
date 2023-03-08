@@ -57,7 +57,7 @@
 				
 				<option value="file0">immersive-dashboard/features/classes/service/logic.go (100.0%)</option>
 				
-				<option value="file1">immersive-dashboard/features/mentees/service/logic.go (22.7%)</option>
+				<option value="file1">immersive-dashboard/features/mentees/service/logic.go (63.6%)</option>
 				
 				</select>
 			</div>
@@ -151,22 +151,22 @@ type menteeService struct {
 }
 
 // Get implements mentees.MenteeServiceInterface
-func (service *menteeService) Get(id uint) (mentees.Core, error) <span class="cov0" title="0">{
+func (service *menteeService) Get(id uint) (mentees.Core, error) <span class="cov8" title="1">{
         data, err := service.menteeData.Select(id)
         return data, err
 }</span>
 
 // Create implements mentees.MenteeServiceInterface
-func (service *menteeService) Create(input mentees.Core) error <span class="cov0" title="0">{
+func (service *menteeService) Create(input mentees.Core) error <span class="cov8" title="1">{
         errValidate := service.validate.Struct(input)
-        if errValidate != nil </span><span class="cov0" title="0">{
+        if errValidate != nil </span><span class="cov8" title="1">{
                 return errValidate
         }</span>
-        <span class="cov0" title="0">errInsert := service.menteeData.Insert(input)
-        if errInsert != nil </span><span class="cov0" title="0">{
+        <span class="cov8" title="1">errInsert := service.menteeData.Insert(input)
+        if errInsert != nil </span><span class="cov8" title="1">{
                 return errInsert
         }</span>
-        <span class="cov0" title="0">return nil</span>
+        <span class="cov8" title="1">return nil</span>
 }
 
 // Delete implements mentees.MenteeServiceInterface

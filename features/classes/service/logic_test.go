@@ -8,6 +8,7 @@ import (
 	"time"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
 var (
@@ -94,6 +95,29 @@ func TestListAll(t *testing.T) {
 
 		srv := New(repo)
 		response, err := srv.List()
+		assert.Nil(t, err)
+		assert.Equal(t, returnData[0].Name, response[0].Name)
+		repo.AssertExpectations(t)
+	})
+}
+
+func TestSelectAll(t *testing.T) {
+	repo := new(mocks.ClassData)
+	returnData := []classes.Core{
+		{
+			ID:           1,
+			Name:         "Immersive Back End 15",
+			Mentor:       "Iruka Sensei",
+			StartDateStr: "2023-01-23",
+			EndDateStr:   "2023-03-23",
+		},
+	}
+
+	t.Run("Success Get All", func(t *testing.T) {
+		repo.On("SelectAll", mock.AnythingOfType("int"), mock.AnythingOfType("int"), mock.AnythingOfType("string")).Return(returnData, nil).Once()
+
+		srv := New(repo)
+		response, err := srv.GetAll(1, "Back End")
 		assert.Nil(t, err)
 		assert.Equal(t, returnData[0].Name, response[0].Name)
 		repo.AssertExpectations(t)

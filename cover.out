@@ -10,6 +10,6 @@ immersive-dashboard/features/classes/service/logic.go:33.2,33.12 1 1
 immersive-dashboard/features/classes/service/logic.go:37.70,39.22 2 0
 immersive-dashboard/features/classes/service/logic.go:39.22,41.3 1 0
 immersive-dashboard/features/classes/service/logic.go:42.2,42.12 1 0
-immersive-dashboard/features/classes/service/logic.go:46.84,51.2 4 0
+immersive-dashboard/features/classes/service/logic.go:46.84,51.2 4 1
 immersive-dashboard/features/classes/service/logic.go:54.61,57.2 2 1
 immersive-dashboard/features/classes/service/logic.go:59.73,64.2 1 1

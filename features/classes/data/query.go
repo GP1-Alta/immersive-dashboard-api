@@ -14,7 +14,7 @@ type classQuery struct {
 // SelectOne implements classes.ClassDataInterface
 func (repo *classQuery) SelectOne(id uint) (classes.Core, error) {
 	var classModel Class
-	tx := repo.db.Where("mentees.id = ?", id).Find(&classModel)
+	tx := repo.db.Where("id = ?", id).Find(&classModel)
 	if tx.Error != nil {
 		return classes.Core{}, tx.Error
 	}

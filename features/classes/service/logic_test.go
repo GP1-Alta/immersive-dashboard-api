@@ -82,3 +82,20 @@ func TestInsert(t *testing.T) {
 		repo.AssertExpectations(t)
 	})
 }
+
+func TestListAll(t *testing.T) {
+	repo := new(mocks.ClassData)
+	returnData := []classes.Core{
+		{ID: 1, Name: "Immersive Back End 15"},
+	}
+
+	t.Run("Success Get All Users", func(t *testing.T) {
+		repo.On("ListAll").Return(returnData, nil).Once()
+
+		srv := New(repo)
+		response, err := srv.List()
+		assert.Nil(t, err)
+		assert.Equal(t, returnData[0].Name, response[0].Name)
+		repo.AssertExpectations(t)
+	})
+}

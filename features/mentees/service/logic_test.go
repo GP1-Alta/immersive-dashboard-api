@@ -122,3 +122,33 @@ func TestSelect(t *testing.T) {
 		repo.AssertExpectations(t)
 	})
 }
+
+func TestSelectAll(t *testing.T) {
+	repo := new(mocks.MenteeData)
+	returnData := []mentees.Core{
+		{
+			ID:       1,
+			Name:     "Naruto Uzumaki",
+			Class:    "Immersive Back End 15",
+			Status:   "Join Class",
+			Category: "Informatics",
+		},
+	}
+	page := 1
+	limit := 10
+	offset := (page - 1) * limit
+	class := "Immersive Back End 15"
+	status := "Join Class"
+	category := "Informatics"
+	name := "Naruto"
+
+	t.Run("Success Get All", func(t *testing.T) {
+		repo.On("SelectAll", limit, offset, class, status, category, name).Return(returnData, nil).Once()
+
+		srv := New(repo)
+		response, err := srv.GetAll(page, class, status, category, name)
+		assert.Nil(t, err)
+		assert.Equal(t, returnData[0].Name, response[0].Name)
+		repo.AssertExpectations(t)
+	})
+}

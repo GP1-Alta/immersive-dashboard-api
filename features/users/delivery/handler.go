@@ -1,9 +1,10 @@
 package delivery
 
 import (
+	"errors"
 	"immersive-dashboard/features/users"
-	helper "immersive-dashboard/utils/helper"
 	jwt "immersive-dashboard/middlewares"
+	helper "immersive-dashboard/utils/helper"
 	"log"
 	"net/http"
 	"strconv"
@@ -24,6 +25,10 @@ func New(service users.UserService) users.UserDelivery {
 
 func (ud *userDelivery) Register() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		if int(jwt.ExtractTokenUserId(c)) != 1 {
+			err := errors.New("restricted access")
+			return c.JSON(helper.ErrorResponse(err))
+		}
 		regInput := RegisterReq{}
 		if err := c.Bind(&regInput); err != nil {
 			log.Println("error bind", err)
@@ -93,6 +98,16 @@ func (ud *userDelivery) GetMentor() echo.HandlerFunc {
 func (ud *userDelivery) UpdateUser() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id := int(jwt.ExtractTokenUserId(c))
+		var userID int
+		if c.Param("id") != "" && id == 1 {
+			userID, _ = strconv.Atoi(c.Param("id"))
+		} else if c.Param("id") == "" && id == 1 {
+			userID = id
+		} else {
+			err := errors.New("restricted access")
+			return c.JSON(helper.ErrorResponse(err))
+		}
+
 		updateInput := UpdateReq{}
 		if err := c.Bind(&updateInput); err != nil {
 			log.Println("error bind", err)
@@ -101,7 +116,7 @@ func (ud *userDelivery) UpdateUser() echo.HandlerFunc {
 		log.Println(updateInput)
 		updateUser := users.Core{}
 		copier.Copy(&updateUser, &updateInput)
-		if err := ud.srv.UpdateUserSrv(id, updateUser); err != nil{
+		if err := ud.srv.UpdateUserSrv(userID, updateUser); err != nil{
 			log.Println("error handler", err)
 			return c.JSON(helper.ErrorResponse(err))
 		}
@@ -111,8 +126,13 @@ func (ud *userDelivery) UpdateUser() echo.HandlerFunc {
 
 func (ud *userDelivery) Delete() echo.HandlerFunc {
 	return func(c echo.Context) error {
+		userID, _ := strconv.Atoi(c.Param("id"))
 		id := int(jwt.ExtractTokenUserId(c))
-		if err := ud.srv.DeleteSrv(id); err != nil{
+		if id != 1 {
+			err := errors.New("restricted access")
+			return c.JSON(helper.ErrorResponse(err))
+		}
+		if err := ud.srv.DeleteSrv(userID); err != nil{
 			log.Println("error handler", err)
 			return c.JSON(helper.ErrorResponse(err))
 		}

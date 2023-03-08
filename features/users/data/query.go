@@ -40,7 +40,7 @@ func (uq *userQuery) LoginData(email string) (users.Core, error) {
 
 func (uq *userQuery) GetUser(pageNum int, keyword string) ([]users.Core, error) {
 	tmp := []User{}
-	limit := 10
+	limit := 1000
 	log.Println("key:", keyword)
 	offset := (pageNum - 1) * limit
 	// tx := uq.db.Raw("SELECT * FROM users LIMIT ?, OFFSET ? WHERE name = ?", pageSize, offset, keyword).Find(&tmp)

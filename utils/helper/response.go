@@ -55,6 +55,9 @@ func ErrorResponse(err error) (int, interface{}) {
 	case strings.Contains(msg, "access"):
 		resp["message"] = "restricted access"
 		code = http.StatusInternalServerError
+	case strings.Contains(msg, "deleted admin"):
+		resp["message"] = "can't delete admin account"
+		code = http.StatusInternalServerError
 	case strings.Contains(msg, "conflict"):
 		code = http.StatusConflict
 	case strings.Contains(msg, "Duplicate"):

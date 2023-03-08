@@ -60,12 +60,13 @@ func InitRouter(db *gorm.DB, e *echo.Echo) {
 	logSrv := _logService.New(logData, v)
 	logHdl := _logHandler.New(logSrv)
 
-	e.POST("/register", userHdl.Register())
 	e.POST("/login", userHdl.Login())
+	e.POST("/register", userHdl.Register(), middlewares.JWTMiddleware())
 	e.GET("/users", userHdl.GetUser(), middlewares.JWTMiddleware())
 	e.GET("/mentors", userHdl.GetMentor(), middlewares.JWTMiddleware())
 	e.PUT("/users", userHdl.UpdateUser(), middlewares.JWTMiddleware())
-	e.DELETE("/users", userHdl.Delete(), middlewares.JWTMiddleware())
+	e.PUT("/users/:id", userHdl.UpdateUser(), middlewares.JWTMiddleware())
+	e.DELETE("/users/:id", userHdl.Delete(), middlewares.JWTMiddleware())
 
 	e.POST("/mentees/:id/logs", logHdl.AddLog(), middlewares.JWTMiddleware())
 	e.GET("/mentees/:id/logs", logHdl.GetLog(), middlewares.JWTMiddleware())

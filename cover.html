@@ -57,6 +57,8 @@
 				
 				<option value="file0">immersive-dashboard/features/classes/service/logic.go (100.0%)</option>
 				
+				<option value="file1">immersive-dashboard/features/mentees/service/logic.go (100.0%)</option>
+				
 				</select>
 			</div>
 			<div id="legend">
@@ -131,6 +133,72 @@ func New(repo classes.ClassDataInterface) classes.ClassServiceInterface <span cl
         return &amp;classService{
                 classData: repo,
                 validate:  validator.New(),
+        }
+}</span>
+</pre>
+		
+		<pre class="file" id="file1" style="display: none">package service
+
+import (
+        "immersive-dashboard/features/mentees"
+
+        "github.com/go-playground/validator/v10"
+)
+
+type menteeService struct {
+        menteeData mentees.MenteeDataInterface
+        validate   *validator.Validate
+}
+
+// Get implements mentees.MenteeServiceInterface
+func (service *menteeService) Get(id uint) (mentees.Core, error) <span class="cov8" title="1">{
+        data, err := service.menteeData.Select(id)
+        return data, err
+}</span>
+
+// Create implements mentees.MenteeServiceInterface
+func (service *menteeService) Create(input mentees.Core) error <span class="cov8" title="1">{
+        errValidate := service.validate.Struct(input)
+        if errValidate != nil </span><span class="cov8" title="1">{
+                return errValidate
+        }</span>
+        <span class="cov8" title="1">errInsert := service.menteeData.Insert(input)
+        if errInsert != nil </span><span class="cov8" title="1">{
+                return errInsert
+        }</span>
+        <span class="cov8" title="1">return nil</span>
+}
+
+// Delete implements mentees.MenteeServiceInterface
+func (service *menteeService) Delete(data mentees.Core, id uint) error <span class="cov8" title="1">{
+        errDelete := service.menteeData.Delete(data, id)
+        if errDelete != nil </span><span class="cov8" title="1">{
+                return errDelete
+        }</span>
+        <span class="cov8" title="1">return nil</span>
+}
+
+// Edit implements mentees.MenteeServiceInterface
+func (service *menteeService) Edit(input mentees.Core, id uint) error <span class="cov8" title="1">{
+        errUpdate := service.menteeData.Update(input, id)
+        if errUpdate != nil </span><span class="cov8" title="1">{
+                return errUpdate
+        }</span>
+        <span class="cov8" title="1">return nil</span>
+}
+
+// GetAll implements mentees.MenteeServiceInterface
+func (service *menteeService) GetAll(page int, class, status, category, name string) ([]mentees.Core, error) <span class="cov8" title="1">{
+        limit := 10
+        offset := (page - 1) * limit
+        data, err := service.menteeData.SelectAll(limit, offset, class, status, category, name)
+        return data, err
+}</span>
+
+func New(repo mentees.MenteeDataInterface) mentees.MenteeServiceInterface <span class="cov8" title="1">{
+        return &amp;menteeService{
+                menteeData: repo,
+                validate:   validator.New(),
         }
 }</span>
 </pre>

@@ -50,8 +50,9 @@ func (repo *classQuery) ListAll() ([]classes.Core, error) {
 
 // SelectAll implements classes.ClassDataInterface
 func (repo *classQuery) SelectAll(limit int, offset int, name string) ([]classes.Core, error) {
+	nameSearch := "%" + name + "%"
 	var classesModel []Class
-	tx := repo.db.Limit(limit).Offset(offset).Where("classes.name LIKE ?", name).Select("classes.id, classes.name, users.name AS mentor, classes.start_date, classes.end_date").Joins("JOIN users ON classes.user_id = users.id").Find(&classesModel)
+	tx := repo.db.Limit(limit).Offset(offset).Where("classes.name LIKE ?", nameSearch).Select("classes.id, classes.name, users.name AS mentor, classes.start_date, classes.end_date").Joins("JOIN users ON classes.user_id = users.id").Find(&classesModel)
 	if tx.Error != nil {
 		return nil, tx.Error
 	}

@@ -15,9 +15,12 @@ type menteeQuery struct {
 // Select implements mentees.MenteeDataInterface
 func (repo *menteeQuery) Select(id uint) (mentees.Core, error) {
 	var menteesModel Mentee
-	tx := repo.db.Where("mentees.id = ?", id).Select("mentees.id, mentees.name, classes.name AS class, mentees.major, mentees.institution, mentees.phone, mentees.telegram, mentees.discord, mentees.email").Joins("JOIN classes ON classes.id = mentees.class_id").Find(&menteesModel)
+	tx := repo.db.Where("mentees.id = ?", id).Select("mentees.id, mentees.name, mentees.address, mentees.home_address, mentees.email, mentees.sex, mentees.telegram, mentees.phone, mentees.discord, mentees.status_id, mentees.class_id, classes.name AS class, mentees.emergency_name, mentees.emergency_phone, mentees.emergency_status, mentees.category, mentees.major, mentees.institution").Joins("JOIN classes ON classes.id = mentees.class_id").Find(&menteesModel)
 	if tx.Error != nil {
 		return mentees.Core{}, tx.Error
+	}
+	if tx.RowsAffected == 0 {
+		return mentees.Core{}, errors.New("select error, row affected = 0")
 	}
 	menteeCore := ModelToCore(menteesModel)
 	return menteeCore, nil

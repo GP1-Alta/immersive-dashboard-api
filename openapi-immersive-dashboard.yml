@@ -1,0 +1,1474 @@
+openapi: "3.0.3"
+info:
+  title: "IMMERSIVE DASHBOARD"
+  version: "1.0.0"
+  description: "API Documentation for Immersive Dashboard"
+  contact:
+    name: Kelompok 1
+    url: https://www.example.com/support
+    email: kharisma.januar@gmail.com
+servers:
+  # Added by API Auto Mocking Plugin
+  - description: SwaggerHub API Auto Mocking
+    url: https://virtserver.swaggerhub.com/KHARISMAJANUAR/api-immersive-dashboard/1.0.0
+  - description: Production server
+    url: http://34.123.29.56:8000
+tags:
+  - name: Login
+    description: Endpoint for verifying who a user is
+  - name: Users
+    description: Endpoint for perform operations on users
+  - name: Classes
+    description: Endpoint for perform operations on classes
+  - name: Mentees
+    description: Endpoint for perform operations on mentees
+  - name: Logs
+    description: Endpoint for perform operations on mentee's logs
+  - name: Mentors
+    description: Endpoint for perform operations to get all mentors
+  - name: Status
+    description: Endpoint for perform operations to get all status
+    
+paths:
+  ####################################
+  #  AUTHENTICATION
+  ####################################
+  /login:
+    post:
+      tags:
+        - Login
+      summary: Get token for access to account
+      requestBody:
+        $ref: "#/components/requestBodies/requestBodyLogin"
+      responses:
+        "200":
+          $ref: "#/components/responses/loginSuccess"
+        "400":
+          $ref: "#/components/responses/loginFailed"
+  ####################################
+  #  USERS
+  ####################################
+  /register:
+    post:
+      tags:
+        - Users
+      summary: Create a new account for user
+      requestBody:
+        $ref: "#/components/requestBodies/requestBodyUser"
+      responses:
+        "201":
+          $ref: "#/components/responses/successCreateUser"
+        "400":
+          $ref: "#/components/responses/createUserFailed"
+  /users:
+    get:
+      tags:
+        - Users
+      summary: Get all users data
+      security:
+        - JWTAuth: []
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/nameUserParam"
+      responses:
+        "200":
+          $ref: "#/components/responses/getAllUsersSuccess"
+        "400":
+          $ref: "#/components/responses/getAllDataFailed"
+  /users/{id_user}:
+    put:
+      tags:
+        - Users
+      summary: Edit user's data by id
+      security:
+        - JWTAuth: []
+      parameters:
+        - $ref: "#/components/parameters/idUserParam"
+      requestBody:
+        $ref: "#/components/requestBodies/requestBodyUserUpdate"
+      responses:
+        "200":
+          $ref: "#/components/responses/successUpdateUser"
+        "400":
+          $ref: "#/components/responses/updateUserFailed"
+    delete:
+      tags:
+        - Users
+      summary: Delete user by id
+      security:
+        - JWTAuth: []
+      parameters:
+        - $ref: "#/components/parameters/idUserParam"
+      responses:
+        "200":
+          $ref: "#/components/responses/successDeleteUser"
+        "400":
+          $ref: "#/components/responses/deleteDataByIdFailed"
+  ####################################
+  #  CLASSES
+  ####################################
+  /classes:
+    get:
+      tags:
+        - Classes
+      summary: Get all classes data
+      security:
+        - JWTAuth: []
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/nameClassParam"
+      responses:
+        "200":
+          $ref: "#/components/responses/getAllClassesSuccess"
+        "400":
+          $ref: "#/components/responses/getAllDataFailed"
+    post:
+      tags:
+        - Classes
+      summary: Create a new class
+      security:
+        - JWTAuth: []
+      requestBody:
+        $ref: "#/components/requestBodies/requestBodyClass"
+      responses:
+        "201":
+          $ref: "#/components/responses/successCreateClass"
+        "400":
+          $ref: "#/components/responses/failedCreateClass"
+  /classes/{id_class}:
+    put:
+      tags:
+        - Classes
+      summary: Edit class data by id
+      security:
+        - JWTAuth: []
+      parameters:
+        - $ref: "#/components/parameters/idClassParam"
+      requestBody:
+        $ref: "#/components/requestBodies/requestBodyClassUpdate"
+      responses:
+        "200":
+          $ref: "#/components/responses/successUpdateClass"
+        "400":
+          $ref: "#/components/responses/updateClassFailed"
+    delete:
+      tags:
+        - Classes
+      summary: Delete class by id
+      security:
+        - JWTAuth: []
+      parameters:
+        - $ref: "#/components/parameters/idClassParam"
+      responses:
+        "200":
+          $ref: "#/components/responses/successDeleteClass"
+        "400":
+          $ref: "#/components/responses/deleteClassByIdFailed"
+  /classes/list:
+    get:
+      tags:
+        - Classes
+      summary: Get all classes name and id
+      security:
+        - JWTAuth: []
+      responses:
+        "200":
+          $ref: "#/components/responses/getAllClassesListSuccess"
+        "400":
+          $ref: "#/components/responses/getAllDataFailed"
+  ####################################
+  #  MENTEES
+  ####################################
+  /mentees:
+    get:
+      tags:
+        - Mentees
+      summary: Get all mentees data
+      security:
+        - JWTAuth: []
+      parameters:
+        - $ref: "#/components/parameters/pageParam"
+        - $ref: "#/components/parameters/classParam"
+        - $ref: "#/components/parameters/statusParam"
+        - $ref: "#/components/parameters/categoryParam"
+        - $ref: "#/components/parameters/nameMenteeParam"
+      responses:
+        "200":
+          $ref: "#/components/responses/getAllMenteesSuccess"
+        "400":
+          $ref: "#/components/responses/getAllDataFailed"
+    post:
+      tags:
+        - Mentees
+      summary: Create a new mentee
+      security:
+        - JWTAuth: []
+      requestBody:
+        $ref: "#/components/requestBodies/requestBodyMentee"
+      responses:
+        "201":
+          $ref: "#/components/responses/successCreateMentee"
+        "400":
+          $ref: "#/components/responses/failedCreateMentee"
+  /mentees/{id_mentee}:
+    get:
+      tags:
+        - Mentees
+      summary: Get mentee's data by id
+      security:
+        - JWTAuth: []
+      parameters:
+        - $ref: "#/components/parameters/idMenteeParam"
+      responses:
+        "200":
+          $ref: "#/components/responses/successGetMentee"
+        "400":
+          $ref: "#/components/responses/getAllDataFailed"
+    put:
+      tags:
+        - Mentees
+      summary: Edit mentee data by id
+      security:
+        - JWTAuth: []
+      parameters:
+        - $ref: "#/components/parameters/idMenteeParam"
+      requestBody:
+        $ref: "#/components/requestBodies/requestBodyMenteeUpdate"
+      responses:
+        "200":
+          $ref: "#/components/responses/successUpdateMentee"
+        "400":
+          $ref: "#/components/responses/failedUpdateMentee"
+    delete:
+      tags:
+        - Mentees
+      summary: Delete mentee by id
+      security:
+        - JWTAuth: []
+      parameters:
+        - $ref: "#/components/parameters/idMenteeParam"
+      responses:
+        "200":
+          $ref: "#/components/responses/successDeleteMentee"
+        "400":
+          $ref: "#/components/responses/failedDeleteMentee"
+  ####################################
+  #  LOGS
+  ####################################
+  /mentees/{id_mentee}/logs:
+    get:
+      tags:
+        - Logs
+      summary: Get all logs data
+      security:
+        - JWTAuth: []
+      parameters:
+        - $ref: "#/components/parameters/idMenteeParam"
+        - $ref: "#/components/parameters/pageParam"
+      responses:
+        "200":
+          $ref: "#/components/responses/getAllLogsSuccess"
+        "400":
+          $ref: "#/components/responses/getAllDataFailed"
+    post:
+      tags:
+        - Logs
+      summary: Create a new mentee's log
+      security:
+        - JWTAuth: []
+      parameters:
+        - $ref: "#/components/parameters/idMenteeParam"
+      requestBody:
+        $ref: "#/components/requestBodies/requestBodyLog"
+      responses:
+        "201":
+          $ref: "#/components/responses/successCreateLog"
+        "400":
+          $ref: "#/components/responses/failedCreateLog"
+  ####################################
+  #  MENTORS
+  ####################################
+  /mentors:
+    get:
+      tags:
+        - Mentors
+      summary: Get all mentors data
+      security:
+        - JWTAuth: []
+      responses:
+        "200":
+          $ref: "#/components/responses/getAllMentorsSuccess"
+        "400":
+          $ref: "#/components/responses/getAllDataFailed"
+  ####################################
+  #  STATUS
+  ####################################
+  /status:
+    get:
+      tags:
+        - Status
+      summary: Get all status data
+      security:
+        - JWTAuth: []
+      responses:
+        "200":
+          $ref: "#/components/responses/getAllStatusSuccess"
+        "400":
+          $ref: "#/components/responses/getAllDataFailed"
+
+####################################
+#  COMPONENTS
+####################################
+components:
+  schemas:
+    requestDataLogin:
+      type: object
+      required:
+        - email
+        - password
+      properties:
+        email:
+          type: string
+        password:
+          type: string
+    requestDataUser:
+      type: object
+      required:
+        - name
+        - email
+        - password
+        - team
+        - status
+      properties:
+        name:
+          type: string
+        email:
+          type: string
+          format: email
+          minLength: 5
+          description: inputted email must be unique
+        password:
+          type: string
+          minLength: 6
+        team:
+          type: string
+        status:
+          type: string
+    requestDataClass:
+      type: object
+      required:
+        - name
+        - user_id
+        - start_date
+        - end_date
+      properties:
+        name:
+          type: string
+        user_id:
+          type: integer
+        start_date:
+          type: string
+        end_date:
+          type: string
+    requestDataMentee:
+      type: object
+      required:
+        - name
+        - address
+        - home_address
+        - email
+        - sex
+        - telegram
+        - phone
+        - discord
+        - status_id
+        - class_id
+        - emergency_name
+        - emergency_phone
+        - emergency_status
+        - category
+        - major
+        - instution
+      properties:
+        name:
+          type: string
+        address:
+          type: string
+        home_address:
+          type: string
+        email:
+          type: string
+        sex:
+          type: string
+        telegram:
+          type: string
+        phone:
+          type: string
+        discord:
+          type: string
+        statud_id:
+          type: integer
+        class_id:
+          type: integer
+        emergency_name:
+          type: string
+        emergency_phone:
+          type: string
+        emergency_status:
+          type: string
+        category:
+          type: string
+        major:
+          type: string
+        institution:
+          type: string
+    requestDataLog:
+      type: object
+      required:
+        - status_id
+        - feedback
+      properties:
+        status_id:
+          type: integer
+        feedback:
+          type: string
+    responseLoginWithData:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            token:
+              type: string
+        message:
+          type: string
+    responseNonData:
+      type: object
+      properties:
+        message:
+          type: string
+    responseUsersWithDataArray:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              email:
+                type: string
+              team:
+                type: string
+              role:
+                type: string
+              status:
+                type: string
+        message:
+          type: string
+    responseClassesWithDataArray:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              mentor:
+                type: string
+              start_date:
+                type: string
+              end_date:
+                type: string
+        message:
+          type: string
+    responseClassesListWithDataArray:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+        message:
+          type: string
+    responseMenteesWithData:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            class:
+              type: string
+            major:
+              type: string
+            institution:
+              type: string
+            phone:
+              type: string
+            telegram:
+              type: string
+            discord:
+              type: string
+            email:
+              type: string
+        message:
+          type: string
+    responseMenteesWithDataArray:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+              class:
+                type: string
+              status:
+                type: string
+              category:
+                type: string
+              sex:
+                type: string
+        message:
+          type: string
+    responseLogsWithDataArray:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            logs:
+              type: array
+              items:
+                type: object
+                properties:
+                  id:
+                    type: integer
+                  mentor:
+                    type: string
+                  status:
+                    type: string
+                  feedback:
+                    type: string
+                  date:
+                    type: string
+        message:
+          type: string
+    responseMentorsWithDataArray:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+        message:
+          type: string
+    responseStatusWithDataArray:
+      type: object
+      properties:
+        data:
+          type: array
+          items:
+            type: object
+            properties:
+              id:
+                type: integer
+              name:
+                type: string
+        message:
+          type: string
+
+  parameters:
+    pageParam:
+      name: page
+      in: query
+      description: Page number to show data
+      required: false
+      schema:
+        type: integer
+        example: 1
+    nameClassParam:
+      name: name
+      in: query
+      description: Search data by class name
+      required: false
+      schema:
+        type: string
+        example: Immersive Back End 15
+    nameMenteeParam:
+      name: name
+      in: query
+      description: Search data by mentee's name
+      required: false
+      schema:
+        type: string
+        example: Naruto
+    nameUserParam:
+      name: name
+      in: query
+      description: Search data by user's name
+      required: false
+      schema:
+        type: string
+        example: Naruto
+    classParam:
+      name: class
+      in: query
+      description: Filter data by classes
+      required: false
+      schema:
+        type: string
+        example: Immersive Back End 15
+    statusParam:
+      name: status
+      in: query
+      description: Filter data by status
+      required: false
+      schema:
+        type: string
+        example: Join Class
+    categoryParam:
+      name: category
+      in: query
+      description: Filter data by categories
+      required: false
+      schema:
+        type: string
+        example: Informatics
+    idUserParam:
+      name: id_user
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 1
+    idClassParam:
+      name: id_class
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 1
+    idMenteeParam:
+      name: id_mentee
+      in: path
+      required: true
+      schema:
+        type: integer
+        example: 1
+
+  securitySchemes:
+    JWTAuth:
+      type: http
+      scheme: bearer
+      bearerFormat: JWT
+      description: "use Token"
+
+  requestBodies:
+    requestBodyLogin:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/requestDataLogin"
+          example:
+            email: admin@alta.com
+            password: admin
+        multipart/form-data:
+          schema:
+            $ref: "#/components/schemas/requestDataLogin"
+    requestBodyUser:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/requestDataUser"
+          examples:
+            addUser1:
+              value:
+                name: Naruto Uzumaki
+                email: naruto@mail.com
+                password: qwerty
+                team: Mentor
+                status: Active
+            addUser2:
+              value:
+                name: Hinata hyuga
+                email: hinata@mail.com
+                password: qwerty
+                team: Placement
+                status: Active
+            addUser3:
+              value:
+                name: Rock Lee
+                email: lee@mail.com
+                password: qwerty
+                team: Academic
+                status: Active
+        multipart/form-data:
+          schema:
+            $ref: "#/components/schemas/requestDataUser"
+    requestBodyUserUpdate:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/requestDataUser"
+          examples:
+            newData1:
+              value:
+                name: Itachi Uchiha
+                email: itachi@mail.com
+                password: newpass
+                team: Placement
+                status: Not-Active
+        multipart/form-data:
+          schema:
+            $ref: "#/components/schemas/requestDataUser"
+    requestBodyClass:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/requestDataClass"
+          examples:
+            addClass1:
+              value:
+                name: Immersive Front End 13
+                user_id: 1
+                start_date: 2023-01-23
+                end_date: 2023-03-23
+            addClass2:
+              value:
+                name: Immersive Back End 15
+                user_id: 2
+                start_date: 2023-01-23
+                end_date: 2023-03-23
+            addClass3:
+              value:
+                name: Immersive Quality Assurance 8
+                user_id: 3
+                start_date: 2023-01-23
+                end_date: 2023-03-23
+        multipart/form-data:
+          schema:
+            $ref: "#/components/schemas/requestDataClass"
+    requestBodyClassUpdate:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/requestDataClass"
+          examples:
+            newData1:
+              value:
+                 name: Immersive Quality Assurance 8
+                 user_id: 6
+                 start_date: 2023-01-23
+                 end_date: 2023-03-23
+        multipart/form-data:
+          schema:
+            $ref: "#/components/schemas/requestDataClass"
+    requestBodyMentee:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/requestDataMentee"
+          examples:
+            addMentee1:
+              value:
+                name: Naruto Uzumaki
+                address: Konohagakure
+                home_address: Konohagakure
+                email: naruto@alta.com
+                sex: male
+                telegram: "@narutouzumaki"
+                phone: "08123456789"
+                discord: naruto#5060
+                status_id: 2
+                class_id: 1
+                emergency_name: Kakashi Hatake
+                emergency_phone: "08123456789"
+                emergency_status: Saudara dari Orang Tua
+                category: Informatics
+                major: Teknik Informatika
+                institution: Institut Teknologi Konohagakure
+            addMentee2:
+              value:
+                name: Hinata Hyuga
+                address: Konohagakure
+                home_address: Konohagakure
+                email: hinata@alta.com
+                sex: female
+                telegram: "@hinatahyuga"
+                phone: "08123456789"
+                discord: hinata#5060
+                status_id: 1
+                class_id: 3
+                emergency_name: Hiashi Hyuga
+                emergency_phone: "08123456789"
+                emergency_status: Orang Tua
+                category: Informatics
+                major: Teknik Informatika
+                institution: Institut Teknologi Konohagakure
+            addMentee3:
+              value:
+                name: Sasuke Uchiha
+                address: Konohagakure
+                home_address: Konohagakure
+                email: sasuke@alta.com
+                sex: male
+                telegram: "@sasukeuchiha"
+                phone: "08123456789"
+                discord: sasuke#5060
+                status_id: 1
+                class_id: 4
+                emergency_name: Fugaku Uchiha
+                emergency_phone: "08123456789"
+                emergency_status: Orang Tua
+                category: Non-Informatics
+                major: IPA
+                institution: SMA 1 Konohagakure
+        multipart/form-data:
+          schema:
+            $ref: "#/components/schemas/requestDataMentee"
+    requestBodyMenteeUpdate:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/requestDataMentee"
+          examples:
+            newData1:
+              value:
+                name: Hinata Hyuga
+                address: Konohagakure
+                home_address: Konohagakure
+                email: hinata@alta.com
+                sex: female
+                telegram: "@hinatahyuga"
+                phone: "08123456789"
+                discord: hinata#5060
+                status_id: 11
+                class_id: 4
+                emergency_name: Hiashi Hyuga
+                emergency_phone: "08123456789"
+                emergency_status: Orang Tua
+                category: Informatics
+                major: Teknik Informatika
+                institution: Institut Teknologi Konohagakure
+        multipart/form-data:
+          schema:
+            $ref: "#/components/schemas/requestDataMentee"
+    requestBodyLog:
+      required: true
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/requestDataLog"
+          examples:
+            addLog1:
+              value:
+                status_id: 1
+                feedback: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            addLog2:
+              value:
+                status_id: 8
+                feedback: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+            addLog3:
+              value:
+                status_id: 11
+                feedback: Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.
+        multipart/form-data:
+          schema:
+            $ref: "#/components/schemas/requestDataLog"
+
+  responses:
+    loginSuccess:
+      description: Success Response Data
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseLoginWithData"
+          example:
+            data:
+              {
+                id : 1,
+                name: Admin,
+                token: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJhdXRob3JpemVkIjp0cnVlLCJleHAiOjE2Mzk2OTAwMjMsInJvbGUiOiJhZG1pbiIsInVzZXJJZCI6NH0.1Ij1ZVqpqPDOVXzaXyqcyNMlnbLTfwD28Byv0aWNjAQ,
+              }
+            message: Login Success
+    loginFailed:
+      description: Bad Request Response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          example:
+            message: Email or Password Incorrect
+    getAllUsersSuccess:
+      description: Success Response Data
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseUsersWithDataArray"
+          example:
+            data:
+              [
+                {
+                  id: 1,
+                  name: Admin,
+                  email: admin@alta.com,
+                  team: Academic,
+                  role: Admin,
+                  status: Active,
+                },
+                {
+                  id: 2,
+                  name: Naruto Uzumaki,
+                  email: naruto@alta.com,
+                  team: Mentor,
+                  role: Default,
+                  status: Active,
+                },
+                {
+                  id: 3,
+                  name: Sasuke Uchiha,
+                  email: sasuke@alta.com,
+                  team: People Skill,
+                  role: Default,
+                  status: Not-Active,
+                },
+              ]
+            message: Success
+    getAllClassesSuccess:
+      description: Success Response Data
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseClassesWithDataArray"
+          example:
+            data:
+              [
+                {
+                  id: 1,
+                  name: Immersive Front End 13,
+                  mentor: Kakashi Hatake,
+                  start_date: 2023-01-23,
+                  end_date: 2023-03-23,
+                },
+                {
+                  id: 2,
+                  name: Immersive Back End 15,
+                  mentor: Jiraiya,
+                  start_date: 2023-01-23,
+                  end_date: 2023-03-23,
+                },
+                {
+                  id: 2,
+                  name: Immersive Quality Assurance 8,
+                  mentor: Minato Namikaze,
+                  start_date: 2023-01-23,
+                  end_date: 2023-03-23,
+                },
+              ]
+            message: Success
+    getAllClassesListSuccess:
+      description: Success Response Data
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseClassesListWithDataArray"
+          example:
+            data:
+              [
+                {
+                  id: 1,
+                  name: Immersive Front End 13,
+                },
+                {
+                  id: 2,
+                  name: Immersive Back End 15,
+                },
+                {
+                  id: 2,
+                  name: Immersive Quality Assurance 8,
+                },
+              ]
+            message: Success
+    getAllDataFailed:
+      description: Bad Request Response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          examples:
+            Data Not Found:
+              $ref: "#/components/examples/dataNotFound"
+            Bad Request:
+              $ref: "#/components/examples/badRequest"
+    successCreateUser:
+      description: Success Response Create User
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          example:
+            message: Success Add User
+    createUserFailed:
+      description: Bad Request Response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          examples:
+            Invalid Name:
+              $ref: "#/components/examples/invalidName"
+            Name alphanumeric:
+              $ref: "#/components/examples/nameAlphanumeric"
+            Invalid Email:
+              $ref: "#/components/examples/invalidEmail"
+            Invalid Password:
+              $ref: "#/components/examples/invalidPassword"
+            Password Must Consist Of:
+              $ref: "#/components/examples/passwordMustConsistOf"
+            Email Already Exist:
+              $ref: "#/components/examples/emailOrTelephoneNumberAlreadyExist"
+    successUpdateUser:
+      description: Success Response Update User
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          example:
+            message: Success Update User
+    updateUserFailed:
+      description: Bad Request Response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          examples:
+            Invalid Id:
+              $ref: "#/components/examples/invalidId"
+            Data Not Found:
+              $ref: "#/components/examples/dataNotFound"
+            Access Forbidden:
+              $ref: "#/components/examples/accessForbidden"
+            Invalid Name:
+              $ref: "#/components/examples/invalidName"
+            Invalid Email:
+              $ref: "#/components/examples/invalidEmail"
+            Invalid Password:
+              $ref: "#/components/examples/invalidPassword"
+            Password Must Consist Of:
+              $ref: "#/components/examples/passwordMustConsistOf"
+            Email Already Exist:
+              $ref: "#/components/examples/emailOrTelephoneNumberAlreadyExist"
+    successDeleteUser:
+      description: Success Response Delete User
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          example:
+            message: Success Delete User
+    deleteDataByIdFailed:
+      description: Bad Request Response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          examples:
+            Access Forbidden:
+              $ref: "#/components/examples/accessForbidden"
+            Invalid Id:
+              $ref: "#/components/examples/invalidId"
+            Data Not Found:
+              $ref: "#/components/examples/dataNotFound"
+    successCreateClass:
+      description: Success Response Create Class
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          example:
+            message: Success Add Class
+    failedCreateClass:
+      description: Failed Response Create Class
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          example:
+            message: Failed Add Class
+    successUpdateClass:
+      description: Success Response Update Class
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          example:
+            message: Success Update Class
+    updateClassFailed:
+      description: Bad Request Response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          examples:
+            Invalid Id:
+              $ref: "#/components/examples/invalidId"
+            Data Not Found:
+              $ref: "#/components/examples/dataNotFound"
+    successDeleteClass:
+      description: Success Response Delete User
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          example:
+            message: Success Delete Class
+    deleteClassByIdFailed:
+      description: Bad Request Response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          examples:
+            Invalid Id:
+              $ref: "#/components/examples/invalidId"
+            Data Not Found:
+              $ref: "#/components/examples/dataNotFound"
+    successGetMentee:
+      description: Success Response Data
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseMenteesWithData"
+          example:
+            data:
+              id: 1
+              name: Naruto Uzumaki
+              class: Immersive Back End Batch 15
+              major: Teknik Informatika
+              institution: Institut Teknologi Konohagakure
+              phone: "08123456789"
+              telegram: "@narutouzumaki"
+              discord: naruto#5060
+              email: naruto@alta.com
+            message: Success
+    getAllMenteesSuccess:
+      description: Success Response Data
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseMenteesWithDataArray"
+          example:
+            data:
+              [
+                {
+                  id: 1,
+                  name: Naruto Uzumaki,
+                  class: Immersive Back End Batch 15,
+                  status: Unit 1,
+                  category: Informatics,
+                  sex: Male,
+                },
+                {
+                  id: 2,
+                  name: Sasuke Uchiha,
+                  class: Immersive Front End Batch 13,
+                  status: Unit 1,
+                  category: Non-Informatics,
+                  sex: Male,
+                },
+                {
+                  id: 3,
+                  name: Hinata Hyuga,
+                  class: Immersive Quality Assurance Batch 10,
+                  status: Interview,
+                  category: Informatics,
+                  sex: Female,
+                },
+              ]
+            message: Success
+    successCreateMentee:
+      description: Success Response Create Mentee
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          example:
+            message: Success Add Mentee
+    failedCreateMentee:
+      description: Failed Response Create Mentee
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          example:
+            message: Failed Add Mentee
+    successUpdateMentee:
+      description: Success Response Update Mentee
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          example:
+            message: Success Update Mentee
+    failedUpdateMentee:
+      description: Bad Request Response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          examples:
+            Invalid Id:
+              $ref: "#/components/examples/invalidId"
+            Data Not Found:
+              $ref: "#/components/examples/dataNotFound"
+    successDeleteMentee:
+      description: Success Response Delete Mentee
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          example:
+            message: Success Delete Mentee
+    failedDeleteMentee:
+      description: Bad Request Response
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          examples:
+            Invalid Id:
+              $ref: "#/components/examples/invalidId"
+            Data Not Found:
+              $ref: "#/components/examples/dataNotFound"
+    getAllLogsSuccess:
+      description: Success Response Data
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseLogsWithDataArray"
+          example:
+            data:
+              logs:
+                [
+                  {
+                    id: 1,
+                    mentor: Kakashi Hatake,
+                    status: Interview,
+                    feedback: Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum.,
+                    date: 2023-03-05,
+                  },
+                  {
+                    id: 2,
+                    mentor: Jiraiya,
+                    status: Placement,
+                    feedback: Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum.,
+                    date: 2023-03-05,
+                  },
+                  {
+                    id: 3,
+                    mentor: Fukasaku,
+                    status: Repeat Unit 1,
+                    feedback: Lorem ipsum dolor sit amet consectetur adipiscing elit sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident sunt in culpa qui officia deserunt mollit anim id est laborum.,
+                    date: 2023-03-05,
+                  },
+                ]
+            message: Success
+    successCreateLog:
+      description: Success Response Create Log
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          example:
+            message: Success Add Log
+    failedCreateLog:
+      description: Failed Response Create Log
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseNonData"
+          example:
+            message: Failed Add Log
+    getAllMentorsSuccess:
+      description: Success Response Data
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseMentorsWithDataArray"
+          example:
+            data:
+              [
+                {
+                  id: 1,
+                  name: Kakashi Hatake,
+                },
+                {
+                  id: 2,
+                  name: Namikaze Minato,
+                },
+                {
+                  id: 3,
+                  name: Jiraiya,
+                },
+              ]
+            message: Success
+    getAllStatusSuccess:
+      description: Success Response Data
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseStatusWithDataArray"
+          example:
+            data:
+              [
+                {
+                  id: 1,
+                  name: Interview,
+                },
+                {
+                  id: 2,
+                  name: Join Class,
+                },
+                {
+                  id: 3,
+                  name: Unit 1,
+                },
+                {
+                  id: 4,
+                  name: Unit 2,
+                },
+                {
+                  id: 5,
+                  name: Unit 3,
+                },
+                {
+                  id: 6,
+                  name: Repeat Unit 1,
+                },
+                {
+                  id: 7,
+                  name: Repeat Unit 2,
+                },
+                {
+                  id: 8,
+                  name: Repeat Unit 3,
+                },
+                {
+                  id: 9,
+                  name: Placement,
+                },
+                {
+                  id: 10,
+                  name: Eliminated,
+                },
+                {
+                  id: 11,
+                  name: Graduated,
+                },
+              ]
+            message: Success
+
+  examples:
+    accessIsDenied:
+      value:
+        message: Access is denied ID data is in the orderInvalid Id
+    accessForbidden:
+      value:
+        message: Access Forbidden
+    badRequest:
+      value:
+        message: Bad Request
+    cantConnecttoServer:
+      value:
+        message: Can't Connect to server
+    dataisAvailable:
+      value:
+        message: Data is Available
+    dataNotFound:
+      value:
+        message: Data Not Found
+    detailsCantBeEmpty:
+      value:
+        message: Details Can't Be Empty
+    emailOrTelephoneNumberAlreadyExist:
+      value:
+        message: Email or Telephone Number Already Exist
+    failedtoUploadFile:
+      value:
+        message: Failed to Upload File
+    fileExtensionNotAllowed:
+      value:
+        message: File Extension Not Allowed
+    idProductNotFound:
+      value:
+        message: Id Product Not Found
+    illegalFile:
+      value:
+        message: Illegal File
+    invalidEmail:
+      value:
+        message: Invalid Email
+    invalidId:
+      value:
+        message: Invalid Id
+    invalidName:
+      value:
+        message: Invalid Name
+    invalidParam:
+      value:
+        message: Invalid Param
+    invalidPassword:
+      value:
+        message: Invalid Password
+    invalidTelephoneNumber:
+      value:
+        message: Invalid Telephone Number
+    nameAlphanumeric:
+      value:
+        message: Name can only contains alphanumeric
+    notAvailable:
+      value:
+        message: Not Available
+    passwordMustConsistOf:
+      value:
+        message: Password must consist of 6 characters or more
+    sizeFileTooBig:
+      value:
+        message: Size File Too Big

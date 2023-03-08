@@ -12,7 +12,9 @@ servers:
   - description: SwaggerHub API Auto Mocking
     url: https://virtserver.swaggerhub.com/KHARISMAJANUAR/api-immersive-dashboard/1.0.0
   - description: Production server
-    url: http://34.123.29.56:8000
+    url: http://34.123.29.56
+  - description: SSL/HTTPS server
+    url: https://altaimmersive.site
 tags:
   - name: Login
     description: Endpoint for verifying who a user is

@@ -12,8 +12,17 @@ type classQuery struct {
 }
 
 // SelectOne implements classes.ClassDataInterface
-func (*classQuery) SelectOne(id uint) (classes.Core, error) {
-	panic("unimplemented")
+func (repo *classQuery) SelectOne(id uint) (classes.Core, error) {
+	var classModel Class
+	tx := repo.db.Where("mentees.id = ?", id).Find(&classModel)
+	if tx.Error != nil {
+		return classes.Core{}, tx.Error
+	}
+	if tx.RowsAffected == 0 {
+		return classes.Core{}, errors.New("select error, row affected = 0")
+	}
+	menteeCore := ModelToCore(classModel)
+	return menteeCore, nil
 }
 
 // Delete implements classes.ClassDataInterface

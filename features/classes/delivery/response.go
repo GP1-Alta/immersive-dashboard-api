@@ -49,3 +49,23 @@ func listCoreToResponseList(dataCore []classes.Core) []ListClassResponse {
 	}
 	return dataResponse
 }
+
+type DetailClassResponse struct {
+	ID           uint   `json:"id"`
+	Name         string `json:"name"`
+	UserID       uint   `json:"user_id"`
+	StartDateStr string `json:"start_date"`
+	EndDateStr   string `json:"end_date"`
+}
+
+func detailCoreToResponse(dataCore classes.Core) DetailClassResponse {
+	startDate := dataCore.StartDate.Format("2006-01-02")
+	endDate := dataCore.EndDate.Format("2006-01-02")
+	return DetailClassResponse{
+		ID:           dataCore.ID,
+		Name:         dataCore.Name,
+		UserID:       dataCore.UserID,
+		StartDateStr: startDate,
+		EndDateStr:   endDate,
+	}
+}

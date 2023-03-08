@@ -25,6 +25,12 @@ func (lq *logQuery) AddLogData(newLog logs.Core) error {
 		log.Println("error query", tx.Error)
 		return tx.Error
 	}
+	log.Println(data.StatusID, data.MenteeID)
+	tq := lq.db.Exec("UPDATE mentees SET status_id = ? WHERE id = ?", data.StatusID, data.MenteeID)
+	if tq.Error != nil {
+		log.Println("error query", tq.Error)
+		return tx.Error
+	}
 	return nil
 }
 

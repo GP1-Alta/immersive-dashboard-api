@@ -7,6 +7,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 
 	"github.com/jinzhu/copier"
 	"github.com/labstack/echo/v4"
@@ -32,6 +33,8 @@ func (ld *logDelivery) AddLog() echo.HandlerFunc {
 			log.Println("error bind", err)
 			return c.JSON(helper.ErrorResponse(err))
 		}
+		curtime := time.Now()
+		addInput.CreatedAt = curtime.Format("Jan 02, 2006")
 		addInput.MenteeID = uint(menteeID)
 		addInput.UserID = uint(userID)
 

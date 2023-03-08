@@ -138,6 +138,19 @@ paths:
         "400":
           $ref: "#/components/responses/failedCreateClass"
   /classes/{id_class}:
+    get:
+      tags:
+        - Classes
+      summary: Get all classes data
+      security:
+        - JWTAuth: []
+      parameters:
+        - $ref: "#/components/parameters/idClassParam"
+      responses:
+        "200":
+          $ref: "#/components/responses/getAllClassesSuccess"
+        "400":
+          $ref: "#/components/responses/getAllDataFailed"
     put:
       tags:
         - Classes
@@ -390,7 +403,7 @@ components:
         - emergency_status
         - category
         - major
-        - instution
+        - institution
       properties:
         name:
           type: string
@@ -475,6 +488,24 @@ components:
                 type: string
         message:
           type: string
+    responseClassesWithData:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            user_id:
+              type: integer
+            start_date:
+              type: string
+            end_date:
+                type: string
+        message:
+          type: string
     responseClassesWithDataArray:
       type: object
       properties:
@@ -519,19 +550,37 @@ components:
               type: integer
             name:
               type: string
+            address:
+              type: string
+            home_address:
+              type: string
+            email:
+              type: string
+            sex:
+              type: string
+            telegram:
+              type: string
+            phone:
+              type: string
+            discord:
+              type: string
+            status_id:
+              type: integer
+            class_id:
+              type: integer
             class:
+              type: string
+            emergency_name:
+              type: string
+            emergency_phone:
+              type: string
+            emergency_status:
+              type: string
+            category:
               type: string
             major:
               type: string
             institution:
-              type: string
-            phone:
-              type: string
-            telegram:
-              type: string
-            discord:
-              type: string
-            email:
               type: string
         message:
           type: string
@@ -973,6 +1022,20 @@ components:
                 },
               ]
             message: Success
+    getClassSuccess:
+      description: Success Response Data
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseClassesWithData"
+          example:
+            data:
+              id: 1,
+              name: Immersive Front End 13,
+              user_id: 3
+              start_date: 2023-01-23,
+              end_date: 2023-03-23,
+            message: Success
     getAllClassesSuccess:
       description: Success Response Data
       content:
@@ -997,7 +1060,7 @@ components:
                   end_date: 2023-03-23,
                 },
                 {
-                  id: 2,
+                  id: 3,
                   name: Immersive Quality Assurance 8,
                   mentor: Minato Namikaze,
                   start_date: 2023-01-23,
@@ -1182,13 +1245,22 @@ components:
             data:
               id: 1
               name: Naruto Uzumaki
+              address: Konohagakure
+              home_address: Konohagakure
+              email: naruto@alta.com
+              sex: Male
+              telegram: "@narutouzumaki"
+              phone: "08123456789"
+              discord: naruto#5060
+              status_id: 2
+              class_id: 1
               class: Immersive Back End Batch 15
+              emergency_name: Minato Namikaze
+              emergency_phone: "08123456789"
+              emergency_status: Orang Tua
+              category: Informatics
               major: Teknik Informatika
               institution: Institut Teknologi Konohagakure
-              phone: "08123456789"
-              telegram: "@narutouzumaki"
-              discord: naruto#5060
-              email: naruto@alta.com
             message: Success
     getAllMenteesSuccess:
       description: Success Response Data

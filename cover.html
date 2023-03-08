@@ -59,6 +59,8 @@
 				
 				<option value="file1">immersive-dashboard/features/mentees/service/logic.go (100.0%)</option>
 				
+				<option value="file2">immersive-dashboard/features/status/service/logic.go (100.0%)</option>
+				
 				</select>
 			</div>
 			<div id="legend">
@@ -198,6 +200,33 @@ func (service *menteeService) GetAll(page int, class, status, category, name str
 func New(repo mentees.MenteeDataInterface) mentees.MenteeServiceInterface <span class="cov8" title="1">{
         return &amp;menteeService{
                 menteeData: repo,
+                validate:   validator.New(),
+        }
+}</span>
+</pre>
+		
+		<pre class="file" id="file2" style="display: none">package service
+
+import (
+        "immersive-dashboard/features/status"
+
+        "github.com/go-playground/validator/v10"
+)
+
+type statusService struct {
+        statusData status.StatusDataInterface
+        validate   *validator.Validate
+}
+
+// GetAll implements status.StatusServiceInterface
+func (service *statusService) GetAll() ([]status.Core, error) <span class="cov8" title="1">{
+        data, err := service.statusData.SelectAll()
+        return data, err
+}</span>
+
+func New(repo status.StatusDataInterface) status.StatusServiceInterface <span class="cov8" title="1">{
+        return &amp;statusService{
+                statusData: repo,
                 validate:   validator.New(),
         }
 }</span>

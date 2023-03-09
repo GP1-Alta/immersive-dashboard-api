@@ -19,7 +19,6 @@ import (
 	_userHandler "immersive-dashboard/features/users/delivery"
 	_userService "immersive-dashboard/features/users/service"
 
-	"github.com/go-playground/validator/v10"
 	"github.com/labstack/echo/v4"
 	"gorm.io/gorm"
 )
@@ -52,23 +51,21 @@ func InitRouter(db *gorm.DB, e *echo.Echo) {
 	statusHandlerAPI := _statusHandler.New(statusService)
 	e.GET("/status", statusHandlerAPI.List, middlewares.JWTMiddleware())
 
-	v := validator.New()
 	userData := _userData.New(db)
-	userSrv := _userService.New(userData, v)
+	userSrv := _userService.New(userData)
 	userHdl := _userHandler.New(userSrv)
-
-	logData := _logData.New(db)
-	logSrv := _logService.New(logData, v)
-	logHdl := _logHandler.New(logSrv)
-
 	e.POST("/login", userHdl.Login())
 	e.POST("/register", userHdl.Register(), middlewares.JWTMiddleware())
 	e.GET("/users", userHdl.GetUser(), middlewares.JWTMiddleware())
 	e.GET("/mentors", userHdl.GetMentor(), middlewares.JWTMiddleware())
+	e.GET("/profile/:id", userHdl.Profile(), middlewares.JWTMiddleware())
 	e.PUT("/users", userHdl.UpdateUser(), middlewares.JWTMiddleware())
 	e.PUT("/users/:id", userHdl.UpdateUser(), middlewares.JWTMiddleware())
 	e.DELETE("/users/:id", userHdl.Delete(), middlewares.JWTMiddleware())
 
+	logData := _logData.New(db)
+	logSrv := _logService.New(logData)
+	logHdl := _logHandler.New(logSrv)
 	e.POST("/mentees/:id/logs", logHdl.AddLog(), middlewares.JWTMiddleware())
 	e.GET("/mentees/:id/logs", logHdl.GetLog(), middlewares.JWTMiddleware())
 }

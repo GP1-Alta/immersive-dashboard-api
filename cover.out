@@ -61,9 +61,9 @@ immersive-dashboard/features/users/service/logic.go:74.2,74.24 1 0
 immersive-dashboard/features/users/service/logic.go:77.63,79.16 2 0
 immersive-dashboard/features/users/service/logic.go:79.16,82.3 2 0
 immersive-dashboard/features/users/service/logic.go:83.2,83.17 1 0
-immersive-dashboard/features/users/service/logic.go:86.83,88.16 2 0
-immersive-dashboard/features/users/service/logic.go:88.16,91.3 2 0
-immersive-dashboard/features/users/service/logic.go:92.2,92.17 1 0
+immersive-dashboard/features/users/service/logic.go:86.83,88.16 2 1
+immersive-dashboard/features/users/service/logic.go:88.16,91.3 2 1
+immersive-dashboard/features/users/service/logic.go:92.2,92.17 1 1
 immersive-dashboard/features/users/service/logic.go:95.61,97.16 2 1
 immersive-dashboard/features/users/service/logic.go:97.16,100.3 2 1
 immersive-dashboard/features/users/service/logic.go:101.2,101.17 1 1

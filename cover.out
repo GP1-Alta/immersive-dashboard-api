@@ -20,9 +20,9 @@ immersive-dashboard/features/logs/service/logic.go:24.52,27.3 2 1
 immersive-dashboard/features/logs/service/logic.go:28.2,29.16 2 1
 immersive-dashboard/features/logs/service/logic.go:29.16,32.3 2 1
 immersive-dashboard/features/logs/service/logic.go:33.2,33.12 1 1
-immersive-dashboard/features/logs/service/logic.go:36.71,38.16 2 0
-immersive-dashboard/features/logs/service/logic.go:38.16,41.3 2 0
-immersive-dashboard/features/logs/service/logic.go:42.2,42.17 1 0
+immersive-dashboard/features/logs/service/logic.go:36.71,38.16 2 1
+immersive-dashboard/features/logs/service/logic.go:38.16,41.3 2 1
+immersive-dashboard/features/logs/service/logic.go:42.2,42.17 1 1
 immersive-dashboard/features/mentees/service/logic.go:15.66,18.2 2 1
 immersive-dashboard/features/mentees/service/logic.go:21.64,23.24 2 1
 immersive-dashboard/features/mentees/service/logic.go:23.24,25.3 1 1

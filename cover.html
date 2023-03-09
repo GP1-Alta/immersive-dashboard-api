@@ -57,7 +57,7 @@
 				
 				<option value="file0">immersive-dashboard/features/classes/service/logic.go (100.0%)</option>
 				
-				<option value="file1">immersive-dashboard/features/logs/service/logic.go (64.3%)</option>
+				<option value="file1">immersive-dashboard/features/logs/service/logic.go (100.0%)</option>
 				
 				<option value="file2">immersive-dashboard/features/mentees/service/logic.go (100.0%)</option>
 				
@@ -184,13 +184,13 @@ func (ls *logService) AddLogSrv(newLog logs.Core) error <span class="cov8" title
         <span class="cov8" title="1">return nil</span>
 }
 
-func (ls *logService) GetLogSrv(id, pageNum int) ([]logs.Core, error) <span class="cov0" title="0">{
+func (ls *logService) GetLogSrv(id, pageNum int) ([]logs.Core, error) <span class="cov8" title="1">{
         tmp, err := ls.data.GetLogData(id, pageNum)
-        if err != nil </span><span class="cov0" title="0">{
+        if err != nil </span><span class="cov8" title="1">{
                 log.Println("error data:", err)
                 return nil, err
         }</span>
-        <span class="cov0" title="0">return tmp, nil</span>
+        <span class="cov8" title="1">return tmp, nil</span>
 }</pre>
 		
 		<pre class="file" id="file2" style="display: none">package service

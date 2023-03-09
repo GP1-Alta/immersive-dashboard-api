@@ -7,6 +7,7 @@ import (
 	"testing"
 
 	"github.com/stretchr/testify/assert"
+	"github.com/stretchr/testify/mock"
 )
 
 var (
@@ -52,6 +53,41 @@ func TestAdd(t *testing.T) {
 		srv := New(repo)
 		err := srv.AddLogSrv(inputData)
 		assert.NotNil(t, err)
+		repo.AssertExpectations(t)
+	})
+}
+
+func TestSelectAll(t *testing.T) {
+	repo := new(mocks.LogData)
+	returnData := []logs.Core{
+		{
+			ID:         1,
+			MenteeID:   1,
+			UserID:     2,
+			UserName:   "Christiano Ronaldo",
+			StatusID:   2,
+			StatusName: "Join Class",
+			Feedback:   "Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua.",
+			CreatedAt:  "2023-03-09",
+		},
+	}
+
+	t.Run("Success Get All", func(t *testing.T) {
+		repo.On("GetLogData", mock.AnythingOfType("int"), mock.AnythingOfType("int")).Return(returnData, nil).Once()
+
+		srv := New(repo)
+		response, err := srv.GetLogSrv(1, 1)
+		assert.Nil(t, err)
+		assert.Equal(t, returnData[0].Feedback, response[0].Feedback)
+		repo.AssertExpectations(t)
+	})
+
+	t.Run("Failed Get All", func(t *testing.T) {
+		repo.On("GetLogData", mock.AnythingOfType("int"), mock.AnythingOfType("int")).Return(nil, errors.New("error data")).Once()
+		srv := New(repo)
+		response, err := srv.GetLogSrv(1, 1)
+		assert.NotNil(t, err)
+		assert.Equal(t, response, []logs.Core([]logs.Core(nil)))
 		repo.AssertExpectations(t)
 	})
 }

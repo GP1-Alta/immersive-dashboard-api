@@ -57,7 +57,7 @@
 				
 				<option value="file0">immersive-dashboard/features/classes/service/logic.go (100.0%)</option>
 				
-				<option value="file1">immersive-dashboard/features/logs/service/logic.go (35.7%)</option>
+				<option value="file1">immersive-dashboard/features/logs/service/logic.go (64.3%)</option>
 				
 				<option value="file2">immersive-dashboard/features/mentees/service/logic.go (100.0%)</option>
 				
@@ -172,12 +172,12 @@ func New(d logs.LogData) logs.LogService <span class="cov8" title="1">{
 
 func (ls *logService) AddLogSrv(newLog logs.Core) error <span class="cov8" title="1">{
         // check input validation
-        if errVld := ls.vld.Struct(newLog); errVld != nil </span><span class="cov0" title="0">{
+        if errVld := ls.vld.Struct(newLog); errVld != nil </span><span class="cov8" title="1">{
                 log.Println("error validation:", errVld)
                 return errVld
         }</span>
         <span class="cov8" title="1">err := ls.data.AddLogData(newLog)
-        if err != nil </span><span class="cov0" title="0">{
+        if err != nil </span><span class="cov8" title="1">{
                 log.Println("error data:", err)
                 return err
         }</span>

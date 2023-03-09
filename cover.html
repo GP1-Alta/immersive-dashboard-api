@@ -63,7 +63,7 @@
 				
 				<option value="file3">immersive-dashboard/features/status/service/logic.go (100.0%)</option>
 				
-				<option value="file4">immersive-dashboard/features/users/service/logic.go (56.9%)</option>
+				<option value="file4">immersive-dashboard/features/users/service/logic.go (65.5%)</option>
 				
 				</select>
 			</div>
@@ -312,7 +312,7 @@ func New(d users.UserData) users.UserService <span class="cov8" title="1">{
 
 func (us *userService) RegisterSrv(newUser users.Core) error <span class="cov8" title="1">{
         // check input validation
-        if errVld := us.vld.Struct(newUser); errVld != nil </span><span class="cov0" title="0">{
+        if errVld := us.vld.Struct(newUser); errVld != nil </span><span class="cov8" title="1">{
                 log.Println("error validation:", errVld)
                 return errVld
         }</span>
@@ -326,7 +326,7 @@ func (us *userService) RegisterSrv(newUser users.Core) error <span class="cov8" 
         <span class="cov8" title="1">newUser.Password = passBcrypt
 
         err := us.data.RegisterData(newUser)
-        if err != nil </span><span class="cov0" title="0">{
+        if err != nil </span><span class="cov8" title="1">{
                 log.Println("error data:", err)
                 return err
         }</span>
@@ -400,7 +400,7 @@ func (us *userService) UpdateUserSrv(id int, updateUser users.Core) error <span 
         }
 
         <span class="cov8" title="1">err := us.data.UpdateUserData(id, updateUser)
-        if err != nil </span><span class="cov0" title="0">{
+        if err != nil </span><span class="cov8" title="1">{
                 return err
         }</span>
         <span class="cov8" title="1">return nil</span>

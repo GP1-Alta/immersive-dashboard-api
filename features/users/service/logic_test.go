@@ -69,6 +69,32 @@ func TestRegister(t *testing.T) {
 		assert.Nil(t, err)
 		repo.AssertExpectations(t)
 	})
+
+	t.Run("Failed when func Insert return error", func(t *testing.T) {
+		repo.On("RegisterData", mock.Anything).Return(errors.New("error insert data")).Once()
+
+		srv := New(repo)
+		err := srv.RegisterSrv(mock_data_user)
+		assert.NotNil(t, err)
+		assert.Equal(t, "error insert data", err.Error())
+		repo.AssertExpectations(t)
+	})
+
+	t.Run("Failed validate", func(t *testing.T) {
+		inputData := users.Core{
+			Id:       3,
+			Email:    "romeo@mail.com",
+			Password: "asdasds",
+			Role:     "Default",
+			Team:     "Mentor",
+			Status:   "Acitve",
+		}
+		srv := New(repo)
+		err := srv.RegisterSrv(inputData)
+		assert.NotNil(t, err)
+		repo.AssertExpectations(t)
+	})
+
 }
 
 func TestUpdate(t *testing.T) {
@@ -81,6 +107,16 @@ func TestUpdate(t *testing.T) {
 		srv := New(repo)
 		err := srv.UpdateUserSrv(id, mock_data_user)
 		assert.Nil(t, err)
+		repo.AssertExpectations(t)
+	})
+
+	t.Run("Failed Update", func(t *testing.T) {
+		repo.On("UpdateUserData", mock.Anything, mock.Anything).Return(errors.New("error")).Once()
+
+		srv := New(repo)
+		err := srv.UpdateUserSrv(id, mock_data_user)
+		assert.NotNil(t, err)
+		assert.Equal(t, "error", err.Error())
 		repo.AssertExpectations(t)
 	})
 }

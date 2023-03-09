@@ -21,7 +21,7 @@ type ClassDataInterface interface {
 	ListAll() ([]Core, error)
 	Insert(input Core) error
 	Update(input Core, id uint) error
-	Delete(data Core, id uint) error
+	Delete(id uint) error
 }
 
 type ClassServiceInterface interface {
@@ -30,5 +30,5 @@ type ClassServiceInterface interface {
 	List() ([]Core, error)
 	Create(input Core) error
 	Edit(input Core, id uint) error
-	Delete(data Core, id uint) error
+	Delete(id uint) error
 }

@@ -72,7 +72,7 @@ func (ud *userDelivery) Login() echo.HandlerFunc {
 
 func (ud *userDelivery) Profile() echo.HandlerFunc {
 	return func(c echo.Context) error {
-		id := int(jwt.ExtractTokenUserId(c))
+		id, _ := strconv.Atoi(c.Param("id"))
 		data, err := ud.srv.ProfileSrv(id)
 		if err != nil {
 			log.Println("error handler", err)
@@ -117,13 +117,14 @@ func (ud *userDelivery) GetMentor() echo.HandlerFunc {
 func (ud *userDelivery) UpdateUser() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id := int(jwt.ExtractTokenUserId(c))
+		paramID, _ := strconv.Atoi(c.Param("id"))
 		var userID int
 		if c.Param("id") != "" && id == 1 {
 			userID, _ = strconv.Atoi(c.Param("id"))
-		} else if c.Param("id") == "" && id == 1 {
-			userID = id
 		} else if c.Param("id") == "" {
 			userID = id
+		} else if c.Param("id") != "" && id == paramID {
+			userID = paramID
 		} else {
 			err := errors.New("restricted access")
 			return c.JSON(helper.ErrorResponse(err))

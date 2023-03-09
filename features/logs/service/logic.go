@@ -12,10 +12,10 @@ type logService struct {
 	vld  *validator.Validate
 }
 
-func New(d logs.LogData, v *validator.Validate) logs.LogService {
+func New(d logs.LogData) logs.LogService {
 	return &logService{
 		data: d,
-		vld:  v,
+		vld:  validator.New(),
 	}
 }
 

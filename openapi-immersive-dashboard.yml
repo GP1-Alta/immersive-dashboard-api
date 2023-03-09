@@ -849,7 +849,6 @@ components:
               value:
                 name: Itachi Uchiha
                 email: itachi@mail.com
-                password: newpass
                 team: Placement
                 status: Not-Active
         multipart/form-data:

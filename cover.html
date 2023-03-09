@@ -63,7 +63,7 @@
 				
 				<option value="file3">immersive-dashboard/features/status/service/logic.go (100.0%)</option>
 				
-				<option value="file4">immersive-dashboard/features/users/service/logic.go (31.0%)</option>
+				<option value="file4">immersive-dashboard/features/users/service/logic.go (39.7%)</option>
 				
 				</select>
 			</div>
@@ -380,13 +380,13 @@ func (us *userService) GetUser(pageNum int, keyword string) ([]users.Core, error
         <span class="cov0" title="0">return tmp, nil</span>
 }
 
-func (us *userService) GetMentorSrv() ([]users.Core, error) <span class="cov0" title="0">{
+func (us *userService) GetMentorSrv() ([]users.Core, error) <span class="cov8" title="1">{
         tmp, err := us.data.GetMentorData()
-        if err != nil </span><span class="cov0" title="0">{
+        if err != nil </span><span class="cov8" title="1">{
                 log.Println("error data:", err)
                 return nil, err
         }</span>
-        <span class="cov0" title="0">return tmp, nil</span>
+        <span class="cov8" title="1">return tmp, nil</span>
 }
 
 func (us *userService) UpdateUserSrv(id int, updateUser users.Core) error <span class="cov8" title="1">{

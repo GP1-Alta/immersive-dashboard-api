@@ -73,3 +73,32 @@ func TestUpdate(t *testing.T) {
 		repo.AssertExpectations(t)
 	})
 }
+
+func TestGetMentor(t *testing.T) {
+	repo := new(mocks.UserData)
+	returnData := []users.Core{
+		{
+			Id:   1,
+			Name: "Lionel Messi",
+		},
+	}
+
+	t.Run("Success Get All", func(t *testing.T) {
+		repo.On("GetMentorData").Return(returnData, nil).Once()
+
+		srv := New(repo)
+		response, err := srv.GetMentorSrv()
+		assert.Nil(t, err)
+		assert.Equal(t, returnData[0].Name, response[0].Name)
+		repo.AssertExpectations(t)
+	})
+
+	t.Run("Failed Get All", func(t *testing.T) {
+		repo.On("GetMentorData").Return(nil, errors.New("error data")).Once()
+		srv := New(repo)
+		response, err := srv.GetMentorSrv()
+		assert.NotNil(t, err)
+		assert.Equal(t, response, []users.Core([]users.Core(nil)))
+		repo.AssertExpectations(t)
+	})
+}

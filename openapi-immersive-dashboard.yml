@@ -77,6 +77,21 @@ paths:
           $ref: "#/components/responses/getAllUsersSuccess"
         "400":
           $ref: "#/components/responses/getAllDataFailed"
+    put:
+      tags:
+        - Users
+      summary: Edit user's data by token
+      security:
+        - JWTAuth: []
+      parameters:
+        - $ref: "#/components/parameters/idUserParam"
+      requestBody:
+        $ref: "#/components/requestBodies/requestBodyUserUpdate"
+      responses:
+        "200":
+          $ref: "#/components/responses/successUpdateUser"
+        "400":
+          $ref: "#/components/responses/updateUserFailed"
   /users/{id_user}:
     put:
       tags:
@@ -1086,7 +1101,7 @@ components:
                   name: Immersive Back End 15,
                 },
                 {
-                  id: 2,
+                  id: 3,
                   name: Immersive Quality Assurance 8,
                 },
               ]

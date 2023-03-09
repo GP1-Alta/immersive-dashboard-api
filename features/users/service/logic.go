@@ -15,10 +15,10 @@ type userService struct {
 	vld  *validator.Validate
 }
 
-func New(d users.UserData, v *validator.Validate) users.UserService {
+func New(d users.UserData) users.UserService {
 	return &userService{
 		data: d,
-		vld:  v,
+		vld:  validator.New(),
 	}
 }
 
@@ -74,6 +74,15 @@ func (us *userService) LoginSrv(email string, password string) (string, users.Co
 	return token, tmp, nil
 }
 
+func (us *userService) ProfileSrv(id int) (users.Core, error) {
+	tmp, err := us.data.ProfileData(id)
+	if err != nil {
+		log.Println("error data:", err)
+		return users.Core{}, err
+	}
+	return tmp, nil
+}
+
 func (us *userService) GetUser(pageNum int, keyword string) ([]users.Core, error) {
 	tmp, err := us.data.GetUser(pageNum, keyword)
 	if err != nil {
@@ -93,15 +102,14 @@ func (us *userService) GetMentorSrv() ([]users.Core, error) {
 }
 
 func (us *userService) UpdateUserSrv(id int, updateUser users.Core) error {
-	if updateUser.Password == "" {
-		return errors.New("password do not empty")
+	if updateUser.Password != "" {
+		passBcrypt, errBcrypt := helper.PassBcrypt(updateUser.Password)
+		if errBcrypt != nil {
+			log.Println("error bcrypt:", errBcrypt)
+			return errBcrypt
+		}
+		updateUser.Password = passBcrypt
 	}
-	passBcrypt, errBcrypt := helper.PassBcrypt(updateUser.Password)
-	if errBcrypt != nil {
-		log.Println("error bcrypt:", errBcrypt)
-		return errBcrypt
-	}
-	updateUser.Password = passBcrypt
 
 	err := us.data.UpdateUserData(id, updateUser)
 	if err != nil {

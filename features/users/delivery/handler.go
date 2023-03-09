@@ -17,6 +17,11 @@ type userDelivery struct {
 	srv users.UserService
 }
 
+// UpdatePass implements users.UserDelivery
+func (*userDelivery) UpdatePass() echo.HandlerFunc {
+	panic("unimplemented")
+}
+
 func New(service users.UserService) users.UserDelivery {
 	return &userDelivery{
 		srv: service,
@@ -65,6 +70,20 @@ func (ud *userDelivery) Login() echo.HandlerFunc {
 	}
 }
 
+func (ud *userDelivery) Profile() echo.HandlerFunc {
+	return func(c echo.Context) error {
+		id := int(jwt.ExtractTokenUserId(c))
+		data, err := ud.srv.ProfileSrv(id)
+		if err != nil {
+			log.Println("error handler", err)
+			return c.JSON(helper.ErrorResponse(err))
+		}
+		res := UserResponse{}
+		copier.Copy(&res, &data)
+		return c.JSON(helper.SuccessResponse(http.StatusOK, "Success Get Profile", res))
+	}
+}
+
 func (ud *userDelivery) GetUser() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		page, _ := strconv.Atoi(c.QueryParam("page"))
@@ -98,12 +117,12 @@ func (ud *userDelivery) GetMentor() echo.HandlerFunc {
 func (ud *userDelivery) UpdateUser() echo.HandlerFunc {
 	return func(c echo.Context) error {
 		id := int(jwt.ExtractTokenUserId(c))
-		userID, _ := strconv.Atoi(c.Param("id"))
+		var userID int
 		if c.Param("id") != "" && id == 1 {
 			userID, _ = strconv.Atoi(c.Param("id"))
 		} else if c.Param("id") == "" && id == 1 {
 			userID = id
-		} else if id == userID {
+		} else if c.Param("id") == "" {
 			userID = id
 		} else {
 			err := errors.New("restricted access")
@@ -115,10 +134,9 @@ func (ud *userDelivery) UpdateUser() echo.HandlerFunc {
 			log.Println("error bind", err)
 			return c.JSON(helper.ErrorResponse(err))
 		}
-		log.Println(updateInput)
 		updateUser := users.Core{}
 		copier.Copy(&updateUser, &updateInput)
-		if err := ud.srv.UpdateUserSrv(userID, updateUser); err != nil{
+		if err := ud.srv.UpdateUserSrv(userID, updateUser); err != nil {
 			log.Println("error handler", err)
 			return c.JSON(helper.ErrorResponse(err))
 		}
@@ -138,7 +156,7 @@ func (ud *userDelivery) Delete() echo.HandlerFunc {
 			err := errors.New("deleted admin")
 			return c.JSON(helper.ErrorResponse(err))
 		}
-		if err := ud.srv.DeleteSrv(userID); err != nil{
+		if err := ud.srv.DeleteSrv(userID); err != nil {
 			log.Println("error handler", err)
 			return c.JSON(helper.ErrorResponse(err))
 		}

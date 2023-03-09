@@ -15,6 +15,7 @@ type Core struct {
 type UserDelivery interface {
 	Register() echo.HandlerFunc
 	Login() echo.HandlerFunc
+	Profile() echo.HandlerFunc
 	GetUser() echo.HandlerFunc
 	GetMentor() echo.HandlerFunc
 	UpdateUser() echo.HandlerFunc
@@ -24,6 +25,7 @@ type UserDelivery interface {
 type UserService interface {
 	RegisterSrv(newUser Core) error
 	LoginSrv(email, password string) (string, Core, error)
+	ProfileSrv(id int)(Core, error)
 	GetUser(int, string)([]Core, error)
 	GetMentorSrv()([]Core, error)
 	UpdateUserSrv(id int, newUser Core) error
@@ -33,6 +35,7 @@ type UserService interface {
 type UserData interface {
 	RegisterData(newUser Core) error
 	LoginData(email string) (Core, error)
+	ProfileData(id int)(Core, error)
 	GetUser(int, string)([]Core, error)
 	GetMentorData()([]Core, error)
 	UpdateUserData(id int, newUser Core) error

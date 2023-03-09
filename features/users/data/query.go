@@ -38,6 +38,19 @@ func (uq *userQuery) LoginData(email string) (users.Core, error) {
 	return UserToCore(tmp), nil
 }
 
+func (uq *userQuery) ProfileData(id int) (users.Core, error) {
+	tmp := User{}
+	tx := uq.db.Where("id = ?", id).First(&tmp)
+	if tx.RowsAffected < 1 {
+		return users.Core{}, errors.New("not found")
+	}
+	if tx.Error != nil {
+		return users.Core{}, tx.Error
+	}
+	userProfile := UserToCore(tmp)
+	return userProfile, nil
+}
+
 func (uq *userQuery) GetUser(pageNum int, keyword string) ([]users.Core, error) {
 	tmp := []User{}
 	limit := 1000

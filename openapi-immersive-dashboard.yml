@@ -94,7 +94,7 @@ paths:
           $ref: "#/components/responses/successUpdateUser"
         "400":
           $ref: "#/components/responses/updateUserFailed"
-  /users/{id_user}:
+  /profile/{id_user}:
     get:
       tags:
         - Users
@@ -108,6 +108,7 @@ paths:
           $ref: "#/components/responses/getUserSuccess"
         "400":
           $ref: "#/components/responses/getAllDataFailed"
+  /users/{id_user}:
     put:
       tags:
         - Users
@@ -508,9 +509,9 @@ components:
               type: string
             email:
               type: string
-            password:
-              type: string
             team:
+              type: string
+            role:
               type: string
             status:
               type: string
@@ -1047,7 +1048,7 @@ components:
               id: 1
               name: Admin
               email: admin@alta.com
-              password: admin
+              role: Admin
               team: Academic
               status: Active
             message: Success

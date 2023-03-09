@@ -26,9 +26,8 @@ func (repo *classQuery) SelectOne(id uint) (classes.Core, error) {
 }
 
 // Delete implements classes.ClassDataInterface
-func (repo *classQuery) Delete(data classes.Core, id uint) error {
-	dataModel := CoreToModel(data)
-	tx := repo.db.Where("id = ?", id).Delete(&dataModel)
+func (repo *classQuery) Delete(id uint) error {
+	tx := repo.db.Where("id = ?", id).Delete(&Class{})
 	if tx.Error != nil {
 		return tx.Error
 	}

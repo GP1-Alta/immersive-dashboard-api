@@ -59,8 +59,7 @@ func (delivery *MenteeHandler) Delete(c echo.Context) error {
 	if errConv != nil {
 		return c.JSON(http.StatusBadRequest, helper.Response("Failed Delete Mentee, id param must number"))
 	}
-	var dataCore mentees.Core
-	err := delivery.menteeService.Delete(dataCore, uint(idConv))
+	err := delivery.menteeService.Delete(uint(idConv))
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.Response("Failed Delete Mentee, error delete data"))
 	}

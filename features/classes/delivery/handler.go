@@ -80,8 +80,7 @@ func (delivery *ClassHandler) Delete(c echo.Context) error {
 	if errConv != nil {
 		return c.JSON(http.StatusBadRequest, helper.Response("Failed Delete Class, id param must number"))
 	}
-	var dataCore classes.Core
-	err := delivery.classService.Delete(dataCore, uint(idConv))
+	err := delivery.classService.Delete(uint(idConv))
 	if err != nil {
 		return c.JSON(http.StatusInternalServerError, helper.Response("Failed Delete Class, error delete data"))
 	}

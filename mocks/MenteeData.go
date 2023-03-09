@@ -13,13 +13,13 @@ type MenteeData struct {
 	mock.Mock
 }
 
-// Delete provides a mock function with given fields: data, id
-func (_m *MenteeData) Delete(data mentees.Core, id uint) error {
-	ret := _m.Called(data, id)
+// Delete provides a mock function with given fields: id
+func (_m *MenteeData) Delete(id uint) error {
+	ret := _m.Called(id)
 
 	var r0 error
-	if rf, ok := ret.Get(0).(func(mentees.Core, uint) error); ok {
-		r0 = rf(data, id)
+	if rf, ok := ret.Get(0).(func(uint) error); ok {
+		r0 = rf(id)
 	} else {
 		r0 = ret.Error(0)
 	}

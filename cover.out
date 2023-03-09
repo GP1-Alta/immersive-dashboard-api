@@ -5,7 +5,7 @@ immersive-dashboard/features/classes/service/logic.go:23.24,25.3 1 1
 immersive-dashboard/features/classes/service/logic.go:26.2,27.22 2 1
 immersive-dashboard/features/classes/service/logic.go:27.22,29.3 1 1
 immersive-dashboard/features/classes/service/logic.go:30.2,30.12 1 1
-immersive-dashboard/features/classes/service/logic.go:34.71,36.22 2 1
+immersive-dashboard/features/classes/service/logic.go:34.52,36.22 2 1
 immersive-dashboard/features/classes/service/logic.go:36.22,38.3 1 1
 immersive-dashboard/features/classes/service/logic.go:39.2,39.12 1 1
 immersive-dashboard/features/classes/service/logic.go:43.70,45.22 2 1
@@ -20,7 +20,7 @@ immersive-dashboard/features/mentees/service/logic.go:23.24,25.3 1 1
 immersive-dashboard/features/mentees/service/logic.go:26.2,27.22 2 1
 immersive-dashboard/features/mentees/service/logic.go:27.22,29.3 1 1
 immersive-dashboard/features/mentees/service/logic.go:30.2,30.12 1 1
-immersive-dashboard/features/mentees/service/logic.go:34.72,36.22 2 1
+immersive-dashboard/features/mentees/service/logic.go:34.53,36.22 2 1
 immersive-dashboard/features/mentees/service/logic.go:36.22,38.3 1 1
 immersive-dashboard/features/mentees/service/logic.go:39.2,39.12 1 1
 immersive-dashboard/features/mentees/service/logic.go:43.71,45.22 2 1

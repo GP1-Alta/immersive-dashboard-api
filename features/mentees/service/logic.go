@@ -31,8 +31,8 @@ func (service *menteeService) Create(input mentees.Core) error {
 }
 
 // Delete implements mentees.MenteeServiceInterface
-func (service *menteeService) Delete(data mentees.Core, id uint) error {
-	errDelete := service.menteeData.Delete(data, id)
+func (service *menteeService) Delete(id uint) error {
+	errDelete := service.menteeData.Delete(id)
 	if errDelete != nil {
 		return errDelete
 	}

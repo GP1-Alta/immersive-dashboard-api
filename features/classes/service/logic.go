@@ -31,8 +31,8 @@ func (service *classService) Create(input classes.Core) error {
 }
 
 // Delete implements classes.ClassServiceInterface
-func (service *classService) Delete(data classes.Core, id uint) error {
-	errDelete := service.classData.Delete(data, id)
+func (service *classService) Delete(id uint) error {
+	errDelete := service.classData.Delete(id)
 	if errDelete != nil {
 		return errDelete
 	}

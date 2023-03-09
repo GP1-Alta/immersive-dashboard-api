@@ -63,7 +63,7 @@
 				
 				<option value="file3">immersive-dashboard/features/status/service/logic.go (100.0%)</option>
 				
-				<option value="file4">immersive-dashboard/features/users/service/logic.go (48.3%)</option>
+				<option value="file4">immersive-dashboard/features/users/service/logic.go (56.9%)</option>
 				
 				</select>
 			</div>
@@ -362,13 +362,13 @@ func (us *userService) LoginSrv(email string, password string) (string, users.Co
         <span class="cov0" title="0">return token, tmp, nil</span>
 }
 
-func (us *userService) ProfileSrv(id int) (users.Core, error) <span class="cov0" title="0">{
+func (us *userService) ProfileSrv(id int) (users.Core, error) <span class="cov8" title="1">{
         tmp, err := us.data.ProfileData(id)
-        if err != nil </span><span class="cov0" title="0">{
+        if err != nil </span><span class="cov8" title="1">{
                 log.Println("error data:", err)
                 return users.Core{}, err
         }</span>
-        <span class="cov0" title="0">return tmp, nil</span>
+        <span class="cov8" title="1">return tmp, nil</span>
 }
 
 func (us *userService) GetUser(pageNum int, keyword string) ([]users.Core, error) <span class="cov8" title="1">{

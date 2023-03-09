@@ -22,6 +22,17 @@ var (
 	}
 )
 
+var (
+	mock_data_get_profile = users.Core{
+		Id:     1,
+		Name:   "Gintama",
+		Email:  "gintama@go.com",
+		Role:   "Default",
+		Team:   "Mentor",
+		Status: "Active",
+	}
+)
+
 func TestDelete(t *testing.T) {
 	repo := new(mocks.UserData)
 
@@ -134,6 +145,30 @@ func TestGetUsers(t *testing.T) {
 		response, err := srv.GetUser(page, keyword)
 		assert.NotNil(t, err)
 		assert.Equal(t, response, []users.Core([]users.Core(nil)))
+		repo.AssertExpectations(t)
+	})
+}
+
+func TestProfileData(t *testing.T) {
+	repo := new(mocks.UserData)
+	idUser := 1
+
+	t.Run("Success Select One", func(t *testing.T) {
+		repo.On("ProfileData", mock.AnythingOfType("int")).Return(mock_data_get_profile, nil).Once()
+
+		srv := New(repo)
+		response, err := srv.ProfileSrv(idUser)
+		assert.Nil(t, err)
+		assert.Equal(t, mock_data_get_profile.Name, response.Name)
+		repo.AssertExpectations(t)
+	})
+
+	t.Run("Failed Get Profile", func(t *testing.T) {
+		repo.On("ProfileData", mock.AnythingOfType("int")).Return(users.Core{}, errors.New("error data")).Once()
+		srv := New(repo)
+		response, err := srv.ProfileSrv(idUser)
+		assert.NotNil(t, err)
+		assert.Equal(t, response, users.Core{})
 		repo.AssertExpectations(t)
 	})
 }

@@ -511,6 +511,8 @@ components:
               type: string
             team:
               type: string
+            role:
+              type: string
             status:
               type: string
         message:
@@ -1046,6 +1048,7 @@ components:
               id: 1
               name: Admin
               email: admin@alta.com
+              role: Admin
               team: Academic
               status: Active
             message: Success

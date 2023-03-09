@@ -27,9 +27,8 @@ func (repo *menteeQuery) Select(id uint) (mentees.Core, error) {
 }
 
 // Delete implements mentees.MenteeDataInterface
-func (repo *menteeQuery) Delete(data mentees.Core, id uint) error {
-	dataModel := CoreToModel(data)
-	tx := repo.db.Where("id = ?", id).Delete(&dataModel)
+func (repo *menteeQuery) Delete(id uint) error {
+	tx := repo.db.Where("id = ?", id).Delete(&Mentee{})
 	if tx.Error != nil {
 		return tx.Error
 	}

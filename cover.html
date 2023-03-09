@@ -178,8 +178,8 @@ func (service *menteeService) Create(input mentees.Core) error <span class="cov8
 }
 
 // Delete implements mentees.MenteeServiceInterface
-func (service *menteeService) Delete(data mentees.Core, id uint) error <span class="cov8" title="1">{
-        errDelete := service.menteeData.Delete(data, id)
+func (service *menteeService) Delete(id uint) error <span class="cov8" title="1">{
+        errDelete := service.menteeData.Delete(id)
         if errDelete != nil </span><span class="cov8" title="1">{
                 return errDelete
         }</span>

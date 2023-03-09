@@ -55,6 +55,8 @@ paths:
       tags:
         - Users
       summary: Create a new account for user
+      security:
+        - JWTAuth: []
       requestBody:
         $ref: "#/components/requestBodies/requestBodyUser"
       responses:
@@ -93,6 +95,19 @@ paths:
         "400":
           $ref: "#/components/responses/updateUserFailed"
   /users/{id_user}:
+    get:
+      tags:
+        - Users
+      summary: Get users data by id
+      security:
+        - JWTAuth: []
+      parameters:
+        - $ref: "#/components/parameters/idUserParam"
+      responses:
+        "200":
+          $ref: "#/components/responses/getUserSuccess"
+        "400":
+          $ref: "#/components/responses/getAllDataFailed"
     put:
       tags:
         - Users
@@ -481,6 +496,26 @@ components:
       properties:
         message:
           type: string
+    responseUsersWithData:
+      type: object
+      properties:
+        data:
+          type: object
+          properties:
+            id:
+              type: integer
+            name:
+              type: string
+            email:
+              type: string
+            password:
+              type: string
+            team:
+              type: string
+            status:
+              type: string
+        message:
+          type: string
     responseUsersWithDataArray:
       type: object
       properties:
@@ -814,7 +849,6 @@ components:
               value:
                 name: Itachi Uchiha
                 email: itachi@mail.com
-                password: newpass
                 team: Placement
                 status: Not-Active
         multipart/form-data:
@@ -1002,6 +1036,21 @@ components:
             $ref: "#/components/schemas/responseNonData"
           example:
             message: Email or Password Incorrect
+    getUserSuccess:
+      description: Success Response Data
+      content:
+        application/json:
+          schema:
+            $ref: "#/components/schemas/responseUsersWithData"
+          example:
+            data:
+              id: 1
+              name: Admin
+              email: admin@alta.com
+              password: admin
+              team: Academic
+              status: Active
+            message: Success
     getAllUsersSuccess:
       description: Success Response Data
       content:

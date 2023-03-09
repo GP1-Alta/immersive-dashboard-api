@@ -57,9 +57,13 @@
 				
 				<option value="file0">immersive-dashboard/features/classes/service/logic.go (100.0%)</option>
 				
-				<option value="file1">immersive-dashboard/features/mentees/service/logic.go (100.0%)</option>
+				<option value="file1">immersive-dashboard/features/logs/service/logic.go (35.7%)</option>
 				
-				<option value="file2">immersive-dashboard/features/status/service/logic.go (100.0%)</option>
+				<option value="file2">immersive-dashboard/features/mentees/service/logic.go (100.0%)</option>
+				
+				<option value="file3">immersive-dashboard/features/status/service/logic.go (100.0%)</option>
+				
+				<option value="file4">immersive-dashboard/features/users/service/logic.go (31.0%)</option>
 				
 				</select>
 			</div>
@@ -148,6 +152,50 @@ func New(repo classes.ClassDataInterface) classes.ClassServiceInterface <span cl
 		<pre class="file" id="file1" style="display: none">package service
 
 import (
+        "immersive-dashboard/features/logs"
+        "log"
+
+        "github.com/go-playground/validator/v10"
+)
+
+type logService struct {
+        data logs.LogData
+        vld  *validator.Validate
+}
+
+func New(d logs.LogData) logs.LogService <span class="cov8" title="1">{
+        return &amp;logService{
+                data: d,
+                vld:  validator.New(),
+        }
+}</span>
+
+func (ls *logService) AddLogSrv(newLog logs.Core) error <span class="cov8" title="1">{
+        // check input validation
+        if errVld := ls.vld.Struct(newLog); errVld != nil </span><span class="cov0" title="0">{
+                log.Println("error validation:", errVld)
+                return errVld
+        }</span>
+        <span class="cov8" title="1">err := ls.data.AddLogData(newLog)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("error data:", err)
+                return err
+        }</span>
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (ls *logService) GetLogSrv(id, pageNum int) ([]logs.Core, error) <span class="cov0" title="0">{
+        tmp, err := ls.data.GetLogData(id, pageNum)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("error data:", err)
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return tmp, nil</span>
+}</pre>
+		
+		<pre class="file" id="file2" style="display: none">package service
+
+import (
         "immersive-dashboard/features/mentees"
 
         "github.com/go-playground/validator/v10"
@@ -211,7 +259,7 @@ func New(repo mentees.MenteeDataInterface) mentees.MenteeServiceInterface <span 
 }</span>
 </pre>
 		
-		<pre class="file" id="file2" style="display: none">package service
+		<pre class="file" id="file3" style="display: none">package service
 
 import (
         "immersive-dashboard/features/status"
@@ -236,6 +284,134 @@ func New(repo status.StatusDataInterface) status.StatusServiceInterface <span cl
                 validate:   validator.New(),
         }
 }</span>
+</pre>
+		
+		<pre class="file" id="file4" style="display: none">package service
+
+import (
+        "errors"
+        "immersive-dashboard/features/users"
+        "immersive-dashboard/middlewares"
+        helper "immersive-dashboard/utils/helper"
+        "log"
+
+        "github.com/go-playground/validator/v10"
+)
+
+type userService struct {
+        data users.UserData
+        vld  *validator.Validate
+}
+
+func New(d users.UserData) users.UserService <span class="cov8" title="1">{
+        return &amp;userService{
+                data: d,
+                vld:  validator.New(),
+        }
+}</span>
+
+func (us *userService) RegisterSrv(newUser users.Core) error <span class="cov8" title="1">{
+        // check input validation
+        if errVld := us.vld.Struct(newUser); errVld != nil </span><span class="cov0" title="0">{
+                log.Println("error validation:", errVld)
+                return errVld
+        }</span>
+        // bcrypt password before insert into database
+        <span class="cov8" title="1">passBcrypt, errBcrypt := helper.PassBcrypt(newUser.Password)
+        if errBcrypt != nil </span><span class="cov0" title="0">{
+                log.Println("error bcrypt:", errBcrypt)
+                return errBcrypt
+        }</span>
+
+        <span class="cov8" title="1">newUser.Password = passBcrypt
+
+        err := us.data.RegisterData(newUser)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("error data:", err)
+                return err
+        }</span>
+
+        <span class="cov8" title="1">return nil</span>
+}
+
+// LoginSrv implements users.UserService
+func (us *userService) LoginSrv(email string, password string) (string, users.Core, error) <span class="cov0" title="0">{
+        if email == "" </span><span class="cov0" title="0">{
+                return "", users.Core{}, errors.New("email cannot be empty")
+        }</span> else<span class="cov0" title="0"> if password == "" </span><span class="cov0" title="0">{
+                return "", users.Core{}, errors.New("password cannot be empty")
+        }</span>
+
+        <span class="cov0" title="0">tmp, err := us.data.LoginData(email)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("error service:", err)
+                return "", users.Core{}, err
+        }</span>
+
+        <span class="cov0" title="0">if err := helper.PassCompare(tmp.Password, password); err != nil </span><span class="cov0" title="0">{
+                log.Println("error compare password:", err)
+                return "", users.Core{}, err
+        }</span>
+
+        <span class="cov0" title="0">token, err := middlewares.CreateToken(tmp.Id)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("error generate token:", err)
+                return "", users.Core{}, err
+        }</span>
+
+        <span class="cov0" title="0">return token, tmp, nil</span>
+}
+
+func (us *userService) ProfileSrv(id int) (users.Core, error) <span class="cov0" title="0">{
+        tmp, err := us.data.ProfileData(id)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("error data:", err)
+                return users.Core{}, err
+        }</span>
+        <span class="cov0" title="0">return tmp, nil</span>
+}
+
+func (us *userService) GetUser(pageNum int, keyword string) ([]users.Core, error) <span class="cov0" title="0">{
+        tmp, err := us.data.GetUser(pageNum, keyword)
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("error data:", err)
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return tmp, nil</span>
+}
+
+func (us *userService) GetMentorSrv() ([]users.Core, error) <span class="cov0" title="0">{
+        tmp, err := us.data.GetMentorData()
+        if err != nil </span><span class="cov0" title="0">{
+                log.Println("error data:", err)
+                return nil, err
+        }</span>
+        <span class="cov0" title="0">return tmp, nil</span>
+}
+
+func (us *userService) UpdateUserSrv(id int, updateUser users.Core) error <span class="cov8" title="1">{
+        if updateUser.Password != "" </span><span class="cov8" title="1">{
+                passBcrypt, errBcrypt := helper.PassBcrypt(updateUser.Password)
+                if errBcrypt != nil </span><span class="cov0" title="0">{
+                        log.Println("error bcrypt:", errBcrypt)
+                        return errBcrypt
+                }</span>
+                <span class="cov8" title="1">updateUser.Password = passBcrypt</span>
+        }
+
+        <span class="cov8" title="1">err := us.data.UpdateUserData(id, updateUser)
+        if err != nil </span><span class="cov0" title="0">{
+                return err
+        }</span>
+        <span class="cov8" title="1">return nil</span>
+}
+
+func (us *userService) DeleteSrv(id int) error <span class="cov8" title="1">{
+        if err := us.data.DeleteData(id); err != nil </span><span class="cov8" title="1">{
+                return err
+        }</span>
+        <span class="cov8" title="1">return nil</span>
+}
 </pre>
 		
 		</div>
